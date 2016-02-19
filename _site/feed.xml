@@ -5,36 +5,45 @@
     <description>My blog using Jekyll-Uno</description>
     <link>http://fengzhongshuang.github.io//</link>
     <atom:link href="http://fengzhongshuang.github.io//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 19 Feb 2016 18:07:59 +0800</pubDate>
-    <lastBuildDate>Fri, 19 Feb 2016 18:07:59 +0800</lastBuildDate>
+    <pubDate>Sat, 20 Feb 2016 00:28:09 +0800</pubDate>
+    <lastBuildDate>Sat, 20 Feb 2016 00:28:09 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
-        <title>Welcome to Jekyll!</title>
-        <description>&lt;p&gt;You’ll find this post in your &lt;code&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code&gt;jekyll serve --watch&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+        <title>JDBC系列——1 目录</title>
+        <description>&lt;h3 id=&quot;section&quot;&gt;目录&lt;/h3&gt;
+&lt;hr /&gt;
+&lt;p&gt;本文是JDBC系列文章的目录，该系列文章将从以下7个方面对JDBC进行介绍，由于本人菜鸟一枚，文中若有错误之处，还请各位朋友批评指正，感谢大家花费时间阅读。&lt;/p&gt;
 
-&lt;p&gt;To add new posts, simply add a file in the &lt;code&gt;_posts&lt;/code&gt; directory that follows the convention &lt;code&gt;YYYY-MM-DD-name-of-post.ext&lt;/code&gt; and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+&lt;h4 id=&quot;jdbc&quot;&gt;1. JDBC概述&lt;/h4&gt;
+&lt;p&gt;简单介绍JDBC的相关概念，包含哪些重要的接口或类，并以MySQL为例，创建第一个JDBC项目&lt;code&gt;JDBC-HelloWorld&lt;/code&gt;。&lt;/p&gt;
 
-&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+&lt;h4 id=&quot;connection&quot;&gt;2. Connection&lt;/h4&gt;
+&lt;p&gt;详细介绍Connection。&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;def print_hi(name)
-  puts &quot;Hi, #{name}&quot;
-end
-print_hi(&#39;Tom&#39;)
-#=&amp;gt; prints &#39;Hi, Tom&#39; to STDOUT.
-&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&quot;statement&quot;&gt;3. Statement&lt;/h4&gt;
+&lt;p&gt;详细介绍Statement、PreparedStatement、CallableStatement&lt;/p&gt;
 
-&lt;p&gt;Check out the &lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://github.com/jekyll/jekyll-help&quot;&gt;Jekyll’s dedicated Help repository&lt;/a&gt;.&lt;/p&gt;
+&lt;h4 id=&quot;resultset&quot;&gt;4. ResultSet&lt;/h4&gt;
+&lt;p&gt;介绍ResultSet，以及ResultSetMetaData获取结果集的元数据。&lt;/p&gt;
 
+&lt;h4 id=&quot;transaction&quot;&gt;5. Transaction&lt;/h4&gt;
+&lt;p&gt;介绍使用JDBC创建事务。&lt;/p&gt;
+
+&lt;h4 id=&quot;connection-pool&quot;&gt;6. Connection Pool&lt;/h4&gt;
+&lt;p&gt;使用C3P0、DBCP连接池&lt;/p&gt;
+
+&lt;h4 id=&quot;common-dao&quot;&gt;7. Common DAO&lt;/h4&gt;
+&lt;p&gt;创建一个自己的简易DAO&lt;/p&gt;
 </description>
-        <pubDate>Fri, 08 Jan 2016 23:04:23 +0800</pubDate>
-        <link>http://fengzhongshuang.github.io//2016/welcome-to-jekyll/</link>
-        <guid isPermaLink="true">http://fengzhongshuang.github.io//2016/welcome-to-jekyll/</guid>
+        <pubDate>Sat, 20 Feb 2016 08:28:00 +0800</pubDate>
+        <link>http://fengzhongshuang.github.io//2016/02/JDBC-category/</link>
+        <guid isPermaLink="true">http://fengzhongshuang.github.io//2016/02/JDBC-category/</guid>
         
-        <category>jekyll</category>
+        <category>JDBC</category>
         
         
-        <category>jekyll</category>
+        <category>java</category>
         
       </item>
     
