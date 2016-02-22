@@ -1,6 +1,6 @@
 ---
 title:  "JDBC系列——2 JDBC概述"
-summary:
+summary:  本文是JDBC系列文章的第二篇，对JDBC进行概述。
 date:   2016-02-20 10:28:00
 categories: [Java]
 tags: [JDBC]

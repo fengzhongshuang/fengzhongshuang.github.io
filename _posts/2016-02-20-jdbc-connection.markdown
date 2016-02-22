@@ -1,10 +1,11 @@
 ---
 title:  "JDBC系列——3 Connection介绍"
-summary: 本文是JDBC系列文章的第三篇，对Connection接口进行介绍。
-date:   2016-02-22 21:00:00
+summary:  本文是JDBC系列文章的第三篇，对Connection接口进行介绍。
+date:   2016-02-22 10:28:00
 categories: [Java]
 tags: [JDBC]
 ---
+
 
 ### Connection
 ---

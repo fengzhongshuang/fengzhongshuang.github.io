@@ -5,9 +5,218 @@
     <description>My blog using Jekyll-Uno</description>
     <link>http://fengzhongshuang.github.io//</link>
     <atom:link href="http://fengzhongshuang.github.io//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 20 Feb 2016 00:28:09 +0800</pubDate>
-    <lastBuildDate>Sat, 20 Feb 2016 00:28:09 +0800</lastBuildDate>
-    <generator>Jekyll v2.4.0</generator>
+    <pubDate>Mon, 22 Feb 2016 22:20:19 +0800</pubDate>
+    <lastBuildDate>Mon, 22 Feb 2016 22:20:19 +0800</lastBuildDate>
+    <generator>Jekyll v3.0.2</generator>
+    
+      <item>
+        <title>JDBC系列——3 Connection介绍</title>
+        <description>&lt;h3 id=&quot;connection&quot;&gt;Connection&lt;/h3&gt;
+&lt;hr /&gt;
+&lt;p&gt;本文是 JDBC 系列文章的第三篇，本文将对 Connection 接口进行介绍，由于本人菜鸟一枚，文中若有错误之处，还请各位朋友批评指正，感谢大家花费时间阅读。&lt;/p&gt;
+
+&lt;p&gt;Connection 是指针对特定数据库的连接，SQL 语句的执行和操作结果的返回都是在这个 Connection 的上下文中的。在连接关闭前它将一直持有数据库的连接资源。该接口包括以下常用方法：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// 创建Statement类型对象，然后通过该Statement调用静态SQL语句，操作数据库&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;Statement&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;createStatement&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 创建PreparedStatement类型对象，调用动态SQL语句，操作数据库&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;PreparedStatement&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;prepareStatement&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sql&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 创建CallableStatement类型对象，调用存储过程或函数等SQL语句，操作数据库&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;CallableStatement&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;prepareCall&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sql&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 设置连接的自动提交模式，默认情况下是true，该模式下所有SQL语句将各自处于各自的事务中，若设置成false，则所有的SQL语句处于一个事务中执行&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;setAutoCommit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;boolean&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;autoCommit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 提交当前事务中的所有变更，并释放持有的数据库锁&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;commit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 回滚（撤销）当前事务中的所有变更，并释放持有的数据库锁&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;rollback&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 释放连接资源&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 获取数据库连接的元数据&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;DatabaseMetaData&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;getMetaData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 设置当前连接为只读模式的&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;setReadOnly&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;boolean&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;readOnly&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 设置事务的隔离级别，分别为TRANSACTION_READ_UNCOMMITTED、TRANSACTION_READ_COMMITTED、TRANSACTION_REPEATABLE_READ、TRANSACTION_SERIALIZABLE，级别由低到高，级别越高一致性越好，但并发能力越差&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;setTransactionIsolation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;level&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 创建一个PreparedStatement对象，该对象能够获取自增的主键值&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;PreparedStatement&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;prepareStatement&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sql&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;autoGeneratedKeys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;通过上面的方法可以知道，Connection 可以帮助我们操作 SQL 语句、设置事务隔离级别以及进行事务处理，完成需要的速记操作，同时也可以获取数据库的相关信息，完成自己的数据库管理工具。&lt;/p&gt;
+</description>
+        <pubDate>Mon, 22 Feb 2016 18:28:00 +0800</pubDate>
+        <link>http://fengzhongshuang.github.io//2016/02/jdbc-connection/</link>
+        <guid isPermaLink="true">http://fengzhongshuang.github.io//2016/02/jdbc-connection/</guid>
+        
+        <category>JDBC</category>
+        
+        
+        <category>Java</category>
+        
+      </item>
+    
+      <item>
+        <title>JDBC系列——2 JDBC概述</title>
+        <description>&lt;h3 id=&quot;jdbc&quot;&gt;JDBC概述&lt;/h3&gt;
+&lt;hr /&gt;
+&lt;p&gt;本文是 JDBC 系列文章的第二篇，本文将从 JDBC 是什么、JDBC 的用途、JDBC 主要提供的接口或类有哪些、如何使用 JDBC 等方面进行描述，希望能全面的了解 JDBC，由于本人菜鸟一枚，文中若有错误之处，还请各位朋友批评指正，感谢大家花费时间阅读。&lt;/p&gt;
+
+&lt;h4 id=&quot;jdbc-1&quot;&gt;1. JDBC是什么&lt;/h4&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;JDBC（Java Database Connectivity, Java数据库连接）是一种用于执行SQL语句的Java API，可以为多种关系数据库提供统一访问，它由一组用Java语言编写的类和接口组成。JDBC提供了一种基准，据此可以构建更高级的工具和接口，使数据库开发人员能够编写数据库应用程序。   &lt;br /&gt;
+&lt;span style=&quot;display:block;text-align:right&quot;&gt;——&lt;a href=&quot;http://baike.baidu.com/link?url=HgR0z82Gj_S135c_psHE6NGpJOES2fi9E2O1HymDFGGv5ibdAC-HHC99RKxejHgq7ZWkMgD_ZQ8_hOIvbLn7vK&quot;&gt;百度百科&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;从百度百科提供的解释中可以知道，JDBC 为我们提供了访问数据库的统一标准，开发人员无需针对不同的数据库编写不同的程序代码，只需提供一份代码，在变更数据库的时候切换对应的数据库驱动即可。&lt;/p&gt;
+
+&lt;p&gt;使用 JDBC 提供的 API，我们可以对数据库进行以下操作：
+* 建立数据库连接
+* 执行数据库 SQL 语句
+* 处理数据库结果&lt;/p&gt;
+
+&lt;p&gt;JDBC 可以使用在任何需要数据库操作的程序中，当然也可以使用它的更高层次的封装框架，如&lt;code class=&quot;highlighter-rouge&quot;&gt;Spring&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;Hibernate&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;MyBatis&lt;/code&gt;等。&lt;/p&gt;
+
+&lt;h4 id=&quot;section&quot;&gt;2. 主要接口和类&lt;/h4&gt;
+&lt;p&gt;JDBC 提供了操作数据库的统一接口，主要包括以下接口和类：&lt;/p&gt;
+
+&lt;p&gt;2.1 Connection&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;A connection (session) with a specific database. SQL statements are executed and results are returned within the context of a connection.
+&lt;span style=&quot;display:block;text-align:right&quot;&gt;——java.sql.Connection&lt;/span&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;该接口是数据库通信的上下文，所有的数据库操作都是通过该上下文完成的。内部提供了创建 Statement 的方法和事务管理的相关方法。&lt;/p&gt;
+
+&lt;p&gt;2.2 Driver&lt;/p&gt;
+
+&lt;p&gt;该接口是数据库的驱动接口，数据库厂商必须保证该接口足够小，能够被一次性加载，通过该接口可以获取数据库的属性信息，也可以用于创建 Connection，但一般不这么使用。通常使用 DriverManager 来管理 Driver，DriverManager 可以同时管理多个 Driver，并根据需要&lt;/p&gt;
+
+&lt;p&gt;2.3 DriverManager&lt;/p&gt;
+
+&lt;p&gt;该类用于管理数据库驱动程序的列表。可以获取被管理的每个 Driver 的信息，也可以通过 Driver 列表中的指定 Driver 来获取数据库连接。&lt;/p&gt;
+
+&lt;p&gt;2.4 Statement&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;The object used for executing a static SQL statement and returning the results it produces.
+&lt;span style=&quot;display:block;text-align:right&quot;&gt;——java.sql.Statement&lt;/span&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;该接口用于执行静态 SQL 语句，PreparedStatement 子接口用于执行动态 SQL 语句，CallableStatement 子接口用于执行存储过程或函数。&lt;/p&gt;
+
+&lt;p&gt;2.5 ResultSet&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;A table of data representing a database result set, which is usually generated by executing a statement that queries the database.
+&lt;span style=&quot;display:block;text-align:right&quot;&gt;——java.sql.ResultSet&lt;/span&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;该接口用于对数据库结果集，将结果集转换成需要的对象类型。&lt;/p&gt;
+
+&lt;p&gt;上述这些接口或类位于&lt;code class=&quot;highlighter-rouge&quot;&gt;java.sql&lt;/code&gt;包中，大家可以自行查阅，当然包中还涉及一些类型的定义以及异常等。&lt;/p&gt;
+
+&lt;p&gt;在 ** JDBC 4.0 **中新增了一些接口和类，被放在&lt;code class=&quot;highlighter-rouge&quot;&gt;javax.sql&lt;/code&gt;包中。其中最重要的就是&lt;code class=&quot;highlighter-rouge&quot;&gt;DataSource&lt;/code&gt;接口及&lt;code class=&quot;highlighter-rouge&quot;&gt;PooledConnection&lt;/code&gt;接口，前者用于获取数据库连接，后者提供了数据库连接池管理需要的方法。&lt;/p&gt;
+
+&lt;h4 id=&quot;how-to-use&quot;&gt;3. How-to-use&lt;/h4&gt;
+
+&lt;p&gt;下面以一个 &lt;code class=&quot;highlighter-rouge&quot;&gt;Hello World&lt;/code&gt; 级别的例子来介绍如何使用 JDBC 操作数据库。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;首先建立数据库及数据表，并在表中添加数据。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DATABASE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;jdbc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;jdbc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;DROP&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TABLE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;EXISTS&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;`users`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TABLE&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;`users`&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+  &lt;span class=&quot;nv&quot;&gt;`id`&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;11&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AUTO_INCREMENT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;nv&quot;&gt;`name`&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;PRIMARY&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;KEY&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;`id`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ENGINE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;InnoDB&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AUTO_INCREMENT&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DEFAULT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CHARSET&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;utf8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;INSERT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;INTO&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;`users`&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;VALUES&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;1&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;Michel&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;2&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;Jay&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;3&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;Micheal&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;4&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;Curry&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;创建Java项目，并添加下列代码&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;java.sql.Connection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;java.sql.Statement&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;java.sql.ResultSet&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HelloWorld&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;Connection&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;connection&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;Statement&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;statement&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;ResultSet&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resultSet&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+        &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sql&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;SELECT id, name FROM users&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;Class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;forName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;com.mysql.jdbc.Driver&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;connection&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DriverManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getConnection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
+                  &lt;span class=&quot;s&quot;&gt;&quot;jdbc:mysql://localhost:3306/jdbc&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
+                  &lt;span class=&quot;s&quot;&gt;&quot;root&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
+                  &lt;span class=&quot;s&quot;&gt;&quot;123456&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;statement&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;connection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;createStatement&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;resultSet&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;statement&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;executeQuery&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sql&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+            &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;resultSet&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;())&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resultSet&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getInt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;id&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resultSet&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getString&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+                &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;id = &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot; name = &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Exception&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;printStackTrace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;finally&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;resultSet&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                    &lt;span class=&quot;n&quot;&gt;resultSet&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+                &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                    &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;printStackTrace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+                &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;statement&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                    &lt;span class=&quot;n&quot;&gt;statement&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+                &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                    &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;printStackTrace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+                &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;connection&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                    &lt;span class=&quot;n&quot;&gt;connection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+                &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                    &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;printStackTrace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+                &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;项目详见【&lt;a href=&quot;https://github.com/fengzhongshuang/jdbc-demo&quot;&gt;jdbc_demo&lt;/a&gt;】&lt;/p&gt;
+</description>
+        <pubDate>Sat, 20 Feb 2016 18:28:00 +0800</pubDate>
+        <link>http://fengzhongshuang.github.io//2016/02/jdbc-summary/</link>
+        <guid isPermaLink="true">http://fengzhongshuang.github.io//2016/02/jdbc-summary/</guid>
+        
+        <category>JDBC</category>
+        
+        
+        <category>Java</category>
+        
+      </item>
     
       <item>
         <title>JDBC系列——1 目录</title>
@@ -16,7 +225,7 @@
 &lt;p&gt;本文是JDBC系列文章的目录，该系列文章将从以下7个方面对JDBC进行介绍，由于本人菜鸟一枚，文中若有错误之处，还请各位朋友批评指正，感谢大家花费时间阅读。&lt;/p&gt;
 
 &lt;h4 id=&quot;jdbc&quot;&gt;1. JDBC概述&lt;/h4&gt;
-&lt;p&gt;简单介绍JDBC的相关概念，包含哪些重要的接口或类，并以MySQL为例，创建第一个JDBC项目&lt;code&gt;JDBC-HelloWorld&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;简单介绍JDBC的相关概念，包含哪些重要的接口或类，并以MySQL为例，创建第一个JDBC项目&lt;code class=&quot;highlighter-rouge&quot;&gt;JDBC-HelloWorld&lt;/code&gt;。&lt;/p&gt;
 
 &lt;h4 id=&quot;connection&quot;&gt;2. Connection&lt;/h4&gt;
 &lt;p&gt;详细介绍Connection。&lt;/p&gt;
@@ -37,13 +246,13 @@
 &lt;p&gt;创建一个自己的简易DAO&lt;/p&gt;
 </description>
         <pubDate>Sat, 20 Feb 2016 08:28:00 +0800</pubDate>
-        <link>http://fengzhongshuang.github.io//2016/02/JDBC-category/</link>
-        <guid isPermaLink="true">http://fengzhongshuang.github.io//2016/02/JDBC-category/</guid>
+        <link>http://fengzhongshuang.github.io//2016/02/jdbc-category/</link>
+        <guid isPermaLink="true">http://fengzhongshuang.github.io//2016/02/jdbc-category/</guid>
         
         <category>JDBC</category>
         
         
-        <category>java</category>
+        <category>Java</category>
         
       </item>
     
