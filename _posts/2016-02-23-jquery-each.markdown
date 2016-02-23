@@ -1,5 +1,5 @@
 ---
-title: "JQury——each函数"
+title: "JQuery——each函数"
 categories: ["JQuery"]
 tags: ["JQuery"]
 ---
