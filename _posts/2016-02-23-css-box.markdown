@@ -1,0 +1,27 @@
+---
+title:  "CSS--盒子模型"
+date:   2016-02-22 08:38:00
+categories: [CSS]
+tags: [CSS]
+---
+
+## CSS——盒子模型
+---
+首先看下盒子模型的图示，从图中可以看出来，盒子模型分为四个部分，分别是 **margin(外边距)、border(边框)、padding(内边距)、content(内容)**，content就是我们展示文字、图片等信息的区域，padding表示内容与边框之间的空间，margin表示其他盒子模型与当前盒子模型的边框之间的空间。
+
+![盒子模型](/images/posts/css-box.png)
+
+举例说明：
+
+```html
+<div style="background:#ff0000; padding: 10px; border: 3px solid #0000ff; margin: 10px;">
+  内容1
+</div>
+<div style="background:#00ff00; padding: 10px; border: 3px solid #0000ff; margin: 10px;">
+  内容2
+</div>
+```
+
+![实例](/images/posts/css-box-sample1.png)
+
+通过设置margin、border、padding的属性，控制内容所占空间以及与其他内容之间的空间间隔。

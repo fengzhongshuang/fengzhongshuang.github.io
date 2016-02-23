@@ -5,8 +5,8 @@
     <description>My blog using Jekyll-Uno</description>
     <link>http://fengzhongshuang.github.io//</link>
     <atom:link href="http://fengzhongshuang.github.io//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 22 Feb 2016 22:20:19 +0800</pubDate>
-    <lastBuildDate>Mon, 22 Feb 2016 22:20:19 +0800</lastBuildDate>
+    <pubDate>Tue, 23 Feb 2016 10:25:30 +0800</pubDate>
+    <lastBuildDate>Tue, 23 Feb 2016 10:25:30 +0800</lastBuildDate>
     <generator>Jekyll v3.0.2</generator>
     
       <item>
@@ -53,6 +53,40 @@
         
         
         <category>Java</category>
+        
+      </item>
+    
+      <item>
+        <title>CSS--盒子模型</title>
+        <description>&lt;h2 id=&quot;css&quot;&gt;CSS——盒子模型&lt;/h2&gt;
+&lt;hr /&gt;
+&lt;p&gt;首先看下盒子模型的图示，从图中可以看出来，盒子模型分为四个部分，分别是 &lt;strong&gt;margin(外边距)、border(边框)、padding(内边距)、content(内容)&lt;/strong&gt;，content就是我们展示文字、图片等信息的区域，padding表示内容与边框之间的空间，margin表示其他盒子模型与当前盒子模型的边框之间的空间。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/css-box.png&quot; alt=&quot;盒子模型&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;举例说明：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;style=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;background:#ff0000; padding: 10px; border: 3px solid #0000ff; margin: 10px;&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+  内容1
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;style=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;background:#00ff00; padding: 10px; border: 3px solid #0000ff; margin: 10px;&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+  内容2
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/css-box-sample1.png&quot; alt=&quot;实例&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;通过设置margin、border、padding的属性，控制内容所占空间以及与其他内容之间的空间间隔。&lt;/p&gt;
+</description>
+        <pubDate>Mon, 22 Feb 2016 16:38:00 +0800</pubDate>
+        <link>http://fengzhongshuang.github.io//2016/02/css-box/</link>
+        <guid isPermaLink="true">http://fengzhongshuang.github.io//2016/02/css-box/</guid>
+        
+        <category>CSS</category>
+        
+        
+        <category>CSS</category>
         
       </item>
     
