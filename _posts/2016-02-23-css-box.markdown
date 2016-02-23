@@ -1,6 +1,5 @@
 ---
-title:  "CSS--盒子模型"
-date:   2016-02-22 08:38:00
+title: "CSS——盒子模型"
 categories: [CSS]
 tags: [CSS]
 ---
