@@ -28,9 +28,9 @@ permalink: /about/
 
 ## 项目经验
 * 2015.7——至今
-  *  "一起考教师"网校( http://www.17kjs.com )、 "一起考教师"APP（[安卓版](http://android.myapp.com/myapp/detail.htm?apkName=com.tsingzone.questionbank)、[iOS版](https://itunes.apple.com/cn/app/yi-qi-kao-jiao-shi/id991016529?mt=8)）
+  * "一起考教师"网校( http://www.17kjs.com )、 "一起考教师"APP（[安卓版][1]、[iOS版][2])
 
-    项目简介：该项目面向有意向考教师资格证或教师编制的用户，为其提供视频培训和自主学习的平台，网校目前以直播课程为主，APP以客观题刷题为主，同时也提供视频学习的功能。采用 **LAMP** 开发模式提供API接口，使用 **Redis** 进行数据缓存，网校使用 **ThinkPHP** 框架。
+    项目简介：该项目面向有意向考教师资格证或教师编制的用户，为其提供视频培训和自主学习的平台，网校目前以直播课程为主，APP以客观题刷题为主，同时也提供视频学习的功能。采用 **LAMP** 开发模式提供API接口，使用 **Redis** 进行数据缓存，网校使用 **ThinkPHP** 框架。  
 
     项目职责：负责网校项目的管理后台开发，包括课程管理、教师管理、用户管理、数据统计、订单管理、广告管理功能，并完成APP中课程相关的API接口。
 
@@ -66,7 +66,8 @@ permalink: /about/
 
     项目职责： 参与项目需求分析和数据库设计，负责组织管理、考核评价、师资管理、职称评审模块的设计与开发，并实现报表自动部署工具，简化报表的部署过程。
 
- * 职称教育考试系统
+  * 职称教育考试系统
+
     项目简介：该项目使用 **Winform** 进行开发，为需要进行职称考试的在校教师提供了一款计算机能力培训学习和测验的软件，包括多维教室、实战考场和模拟练习三个主要功能。
 
     项目职责： 负责实战考场和模拟练习的开发，设计快速开发模拟练习习题的GUI开发工具。。
@@ -76,3 +77,6 @@ permalink: /about/
 ## 教育经历
 * 中南民族大学 （2011.09 - 2014.07） 硕士
 * 中南民族大学 （2007.09 - 2011.07） 本科
+
+[1]:(http://android.myapp.com/myapp/detail.htm?apkName=com.tsingzone.questionbank)
+[2]:(https://itunes.apple.com/cn/app/yi-qi-kao-jiao-shi/id991016529?mt=8)

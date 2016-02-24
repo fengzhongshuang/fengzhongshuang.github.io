@@ -980,7 +980,7 @@ h5 {
 	font-size: 1em; }
 
 p {
-	margin-bottom: 1.3em;
+	margin-bottom: 0.5em;
 	line-height: 1.7em;
 	text-indent: 2em;}
 
@@ -1174,8 +1174,8 @@ hr {
 	width: 95%; }
 .post hr {
 	display: block;
-	width: 30%;
-	margin: 2em 0;
+	width: 100%;
+	margin: 1em 0;
 	border-top: 1px solid #dddddd; }
 
 .error-code {
