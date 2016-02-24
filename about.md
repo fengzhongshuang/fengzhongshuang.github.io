@@ -1,11 +1,11 @@
 ---
 layout: page
-title: 关于我
 permalink: /about/
 ---
-<h1 style="text-align:center;"><span>冯忠双</span><span style="display: inline-block; padding-left: 50px; font-size: 0.8em">18514007601</span></h1>
+<h2 style="text-align:center;"><span>冯忠双</span><span style="display: inline-block; padding-left: 50px; font-size: 0.8em">18514007601</span></h2>
 
 ---
+
 ## 基本信息
 目前公司： 北京掌上园丁科技有限公司
 

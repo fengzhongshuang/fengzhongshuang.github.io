@@ -5,12 +5,12 @@
     <description>My blog using Jekyll-Uno</description>
     <link>http://fengzhongshuang.github.io//</link>
     <atom:link href="http://fengzhongshuang.github.io//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 23 Feb 2016 17:41:30 +0800</pubDate>
-    <lastBuildDate>Tue, 23 Feb 2016 17:41:30 +0800</lastBuildDate>
+    <pubDate>Wed, 24 Feb 2016 23:07:01 +0800</pubDate>
+    <lastBuildDate>Wed, 24 Feb 2016 23:07:01 +0800</lastBuildDate>
     <generator>Jekyll v3.0.2</generator>
     
       <item>
-        <title>JQury——each函数</title>
+        <title>JQuery——each函数</title>
         <description>&lt;h2 id=&quot;jqueryeach&quot;&gt;JQuery——each函数&lt;/h2&gt;
 &lt;hr /&gt;
 &lt;p&gt;本文用于记录JQuery的each函数的定义与用法，使用each可以对筛选出的结果进行遍历，对每个对象执行指定的函数，处理各自的逻辑。&lt;/p&gt;
