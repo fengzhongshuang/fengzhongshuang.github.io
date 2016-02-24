@@ -5,9 +5,182 @@
     <description>My blog using Jekyll-Uno</description>
     <link>http://fengzhongshuang.github.io//</link>
     <atom:link href="http://fengzhongshuang.github.io//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 24 Feb 2016 23:33:17 +0800</pubDate>
-    <lastBuildDate>Wed, 24 Feb 2016 23:33:17 +0800</lastBuildDate>
+    <pubDate>Wed, 24 Feb 2016 23:49:28 +0800</pubDate>
+    <lastBuildDate>Wed, 24 Feb 2016 23:49:28 +0800</lastBuildDate>
     <generator>Jekyll v3.0.2</generator>
+    
+      <item>
+        <title>JAVA基础</title>
+        <description>&lt;h1 id=&quot;j2se&quot;&gt;J2SE&lt;/h1&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;strictfp&quot;&gt;1、使用&lt;code class=&quot;highlighter-rouge&quot;&gt;strictfp&lt;/code&gt;关键字标记的方法必须使用严格的浮点计算来产生理想的结果。&lt;/h2&gt;
+&lt;p&gt;主要是在不同的处理器上对于浮点数的运算处理的差异导致，为了平衡性能和理想结果做出的选择。&lt;/p&gt;
+
+&lt;h2 id=&quot;section&quot;&gt;2、&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;amp;&amp;amp;&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;||&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;amp;&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;|&lt;/code&gt;的异同&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;amp;&amp;amp;&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;||&lt;/code&gt; 是逻辑运算符，&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;amp;&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;|&lt;/code&gt;是位运算符&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;amp;&amp;amp;&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;||&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;amp;&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;|&lt;/code&gt;都可以用来做逻辑判断，只是前者是** 短路方式 **计算，后者不是 ** 短路方式 **&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;amp;&amp;amp;&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;||&lt;/code&gt;比 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;amp;&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;|&lt;/code&gt;的运算符优先级 ** 低 **&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;section-1&quot;&gt;3、&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;gt;&amp;gt;&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/code&gt; 右移运算符、&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;&amp;lt;&lt;/code&gt;左移运算符&lt;/h2&gt;
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;gt;&amp;gt;&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;&amp;lt;&lt;/code&gt;是使用 ** 符号位 **来填充高位
+&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/code&gt;是使用 ** 0 **来填充高位
+例如：
+```java
+int num1 = 4 » 2;  // num1 = 2
+int num2 = 4 »&amp;gt; 2; // num2 = 2&lt;/p&gt;
+
+&lt;p&gt;int num3 = -4 » 2;  // num3 = -2 (0b11111111111111111111111111111110)
+int num4 = -4 »&amp;gt; 2; // num4 = 2147483646 (0b01111111111111111111111111111110)
+```
+整数的二进制表示&lt;br /&gt;
+正数的二进制 = 二进制原码&lt;br /&gt;
+负数的二进制 = abs(负数)的二进制的反码 + 1 &lt;br /&gt;
+例如：&lt;br /&gt;
+5的二进制&lt;/p&gt;
+
+&lt;p&gt;0b00000000000000000000000000000101&lt;/p&gt;
+
+&lt;p&gt;-5的二进制
+* 得到5的二进制 0b00000000000000000000000000000101
+* 取反 0b11111111111111111111111111111010
+* 再加1 0b11111111111111111111111111111011&lt;/p&gt;
+
+&lt;h2 id=&quot;strictmathmath&quot;&gt;4、&lt;code class=&quot;highlighter-rouge&quot;&gt;StrictMath&lt;/code&gt;与&lt;code class=&quot;highlighter-rouge&quot;&gt;Math&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;前者提供的方法在任何平台上保证得到相同的结果，后者则追求更高的运算效率。&lt;/p&gt;
+
+&lt;h2 id=&quot;code-unitcode-point-&quot;&gt;5、&lt;code class=&quot;highlighter-rouge&quot;&gt;Code Unit(代码单元)&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;Code Point(代码点)&lt;/code&gt; ?????&lt;/h2&gt;
+
+&lt;h2 id=&quot;section-2&quot;&gt;6、字符串格式化 ????&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;/images/posts/String_Format.png&quot; alt=&quot;格式说明符&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;section-3&quot;&gt;7、数组的交集、并集、差集、补集？？？&lt;/h2&gt;
+
+&lt;h2 id=&quot;numberformatdecimalformatmessageformatchoiceformat-&quot;&gt;8、NumberFormat、DecimalFormat、MessageFormat、ChoiceFormat ？？&lt;/h2&gt;
+
+&lt;h2 id=&quot;getterclone&quot;&gt;9、对用对象类型的getter方法，要返回对象的clone&lt;/h2&gt;
+
+&lt;h2 id=&quot;section-4&quot;&gt;10、初始化块、静态初始化块&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;初始化块在每次创建对象的时候都会调用&lt;/li&gt;
+  &lt;li&gt;静态初始化块只在创建第一个对象的时候调用，再次创建对象是不会再次调用&lt;/li&gt;
+  &lt;li&gt;创建对象时，先执行静态初始化块（仅执行一次），在执行普通初始化块，然后执行构造函数。&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;如果类存在继承关系，那么执行顺序需要特别注意&lt;br /&gt;
+```Java
+/*
+ *Parent Class
+ */
+public class Parent {
+  static {
+      System.out.println(“Parent static block”);
+  }&lt;/p&gt;
+
+    &lt;p&gt;{
+      System.out.println(“Parent common block”);
+  }&lt;/p&gt;
+
+    &lt;p&gt;public Parent() {
+      System.out.println(“Parent Constructor”);
+  }
+}
+&lt;code class=&quot;highlighter-rouge&quot;&gt;
+&lt;/code&gt;Java
+/*
+ *Child Class
+ */
+public class Child extends Parent {
+  static {
+      System.out.println(“Child static block”);
+  }&lt;/p&gt;
+
+    &lt;p&gt;{
+      System.out.println(“Child common block”);
+  }&lt;/p&gt;
+
+    &lt;p&gt;public Child() {
+      super();
+      System.out.println(“Child Constructor”);
+  }
+}
+&lt;code class=&quot;highlighter-rouge&quot;&gt;
+&lt;/code&gt;Java
+public class Application {
+  public static void main(String[] args) {
+      Child c = new Child();
+  }
+}
+/**&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Output:&lt;/li&gt;
+  &lt;li&gt;Parent static block&lt;/li&gt;
+  &lt;li&gt;Child static block&lt;/li&gt;
+  &lt;li&gt;Parent common block&lt;/li&gt;
+  &lt;li&gt;Parent Constructor&lt;/li&gt;
+  &lt;li&gt;Child common block&lt;/li&gt;
+  &lt;li&gt;Child Constructor
+ */
+```&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;section-5&quot;&gt;11、静态绑定（前期绑定）和动态绑定（后期绑定）区别对比&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;静态绑定发生在编译时期。 &lt;br /&gt;
+动态绑定发生在运行时。&lt;/li&gt;
+  &lt;li&gt;使用private或static或final修饰的变量或者方法，使用静态绑定。&lt;br /&gt;
+而虚方法（可以被子类重写的方法）则会根据运行时的对象进行动态绑定。&lt;/li&gt;
+  &lt;li&gt;静态绑定使用类信息来完成。&lt;br /&gt;
+而动态绑定则需要使用对象信息来完成。&lt;/li&gt;
+  &lt;li&gt;重载(Overload)的方法使用静态绑定完成&lt;br /&gt;
+ 重写(Override)的方法则使用动态绑定完成。&lt;/li&gt;
+  &lt;li&gt;动态绑定比静态绑定更耗时。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;equals&quot;&gt;12、编写equals方法&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;显示参数命名位OtherObject，稍后需要将它转换成另一个叫做other的变量&lt;/li&gt;
+  &lt;li&gt;检测this与otherObject是否引用同一个对象
+&lt;code class=&quot;highlighter-rouge&quot;&gt;Java
+if (this == otherObject) return true;
+&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;检测otherObject是否为null。
+*
+&lt;code class=&quot;highlighter-rouge&quot;&gt;Java
+if (null == otherObject) return false;
+&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;比较this与otherObject是否属于同一个类，如果equals的语义在每个子类中有所改变，就使用getClass()检测,如果所有的子类都拥有统一的语义，就使用instanceof检测。
+  ```Java
+  if (getClass != otherObject.getClass()) return false;&lt;/p&gt;
+
+    &lt;p&gt;if(!(otherObject instanceof ClassName)) return false;
+  ```&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;将otherObject转换位相应的类类型变量
+&lt;code class=&quot;highlighter-rouge&quot;&gt;Java
+ClassName other = (ClassName) otherObject;
+&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;对需要比较的域进行比较，使用==比较基本类型域，使用equals比较对象域，如果所有域都匹配，返回true，否则返回false。&lt;/li&gt;
+  &lt;li&gt;如果在子类中重新定义equals，就要调用super.equals(other)。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;section-6&quot;&gt;13、内部类？？&lt;/h2&gt;
+
+&lt;h2 id=&quot;section-7&quot;&gt;14、代理？？&lt;/h2&gt;
+</description>
+        <pubDate>Wed, 24 Feb 2016 00:00:00 +0800</pubDate>
+        <link>http://fengzhongshuang.github.io//2016/02/java-basic/</link>
+        <guid isPermaLink="true">http://fengzhongshuang.github.io//2016/02/java-basic/</guid>
+        
+        <category>J2SE</category>
+        
+        
+        <category>Java</category>
+        
+      </item>
     
       <item>
         <title>JQuery——each函数</title>
