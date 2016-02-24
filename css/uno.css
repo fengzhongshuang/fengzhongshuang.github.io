@@ -984,6 +984,11 @@ p {
 	line-height: 1.7em;
 	text-indent: 2em;}
 
+li p:first{
+	margin-bottom: 0.5em;
+	line-height: 1.7em;
+}
+
 strong {
 	font-weight: bold; }
 
