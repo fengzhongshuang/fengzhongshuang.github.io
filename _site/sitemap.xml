@@ -3,6 +3,21 @@
   
     
     <url>
+      <loc>http://fengzhongshuang.github.io/2016/02/jdbc-statement/</loc>
+      
+        <lastmod>2016-02-25T00:00:00+08:00</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
       <loc>http://fengzhongshuang.github.io/2016/02/java-basic/</loc>
       
         <lastmod>2016-02-24T00:00:00+08:00</lastmod>
@@ -96,7 +111,7 @@
     <url>
       <loc>http://fengzhongshuang.github.io/about/</loc>
       
-        <lastmod>2016-02-24T23:54:29+08:00</lastmod>
+        <lastmod>2016-02-25T22:49:04+08:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -111,7 +126,7 @@
     <url>
       <loc>http://fengzhongshuang.github.io/categories/</loc>
       
-        <lastmod>2016-02-24T23:54:29+08:00</lastmod>
+        <lastmod>2016-02-25T22:49:04+08:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -126,7 +141,7 @@
     <url>
       <loc>http://fengzhongshuang.github.io/feed.xml</loc>
       
-        <lastmod>2016-02-24T23:54:29+08:00</lastmod>
+        <lastmod>2016-02-25T22:49:04+08:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -141,7 +156,7 @@
     <url>
       <loc>http://fengzhongshuang.github.io/</loc>
       
-        <lastmod>2016-02-24T23:54:29+08:00</lastmod>
+        <lastmod>2016-02-25T22:49:04+08:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -156,7 +171,7 @@
     <url>
       <loc>http://fengzhongshuang.github.io/js/main.js</loc>
       
-        <lastmod>2016-02-24T23:54:29+08:00</lastmod>
+        <lastmod>2016-02-25T22:49:04+08:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -171,7 +186,7 @@
     <url>
       <loc>http://fengzhongshuang.github.io/css/main.css</loc>
       
-        <lastmod>2016-02-24T23:54:29+08:00</lastmod>
+        <lastmod>2016-02-25T22:49:04+08:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -188,7 +203,7 @@
     <url>
       <loc>http://fengzhongshuang.github.io/tags/</loc>
       
-        <lastmod>2016-02-24T23:54:29+08:00</lastmod>
+        <lastmod>2016-02-25T22:49:04+08:00</lastmod>
       
       
         <changefreq>monthly</changefreq>

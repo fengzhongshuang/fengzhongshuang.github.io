@@ -5,9 +5,248 @@
     <description>My blog using Jekyll-Uno</description>
     <link>http://fengzhongshuang.github.io//</link>
     <atom:link href="http://fengzhongshuang.github.io//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 24 Feb 2016 23:54:29 +0800</pubDate>
-    <lastBuildDate>Wed, 24 Feb 2016 23:54:29 +0800</lastBuildDate>
+    <pubDate>Thu, 25 Feb 2016 22:49:04 +0800</pubDate>
+    <lastBuildDate>Thu, 25 Feb 2016 22:49:04 +0800</lastBuildDate>
     <generator>Jekyll v3.0.2</generator>
+    
+      <item>
+        <title>JDBC系列——4 Statement</title>
+        <description>&lt;h3 id=&quot;statement&quot;&gt;Statement&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;本文是 JDBC 系列文章的第四篇，本文将对 Statement 接口进行介绍，由于本人菜鸟一枚，文中若有错误之处，还请各位朋友批评指正，感谢大家花费时间阅读。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Statement 是用于执行静态 SQL 语句，并返回结果。它还有两个子接口，一个用于执行动态 SQL 语句的 PreparedStatement，一个用于执行存储过程或函数的 CallableStatement。本文主要介绍 Statement 接口的使用。它为用户提供了以下主要方法：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// 执行一条 Select 的 SQL 语句，并返回对应的结果集&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;ResultSet&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;executeQuery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sql&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 执行一条无返回值的 DDL 语句，或执行 Data Manipulation Language（DML语句，如 INSERT、UPDATE、DELETE）语句&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;executeUpdate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sql&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 释放资源&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 执行一条 SQL 语句，可能返回多个结果。需要配合 getResultSet 或 getUpdateCount 和 getMoreResults 方法一起使用。如果第一个结果是一个 ResultSet 对象，则返回true， 若是一个更新数量或无结果，则返回false&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;boolean&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;execute&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sql&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 返回 execute 返回的结果集&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;ResultSet&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;getResultSet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 返回 execute 返回的更新数量&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;getUpdateCount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 返回 execute 方法是否还有更多的结果&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;boolean&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;getMoreResults&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 将 SQL 语句加入列表中，通过 executeBatch 方法批量执行。&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;addBatch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sql&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 清空 SQL 语句列表&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;clearBatch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 批量执行 SQL 列表中的语句，如果全部执行成功，则返回一个更新数量的数组。如果其中的某条语句发生错误，则根据数据库和驱动的支持来判断是继续执行后面的语句还是停止执行。&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;executeBatch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 获取执行的 SQL 语句返回的自增主键，如果为生成任何值，则返回一个空的 ResultSet 对象。&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;ResultSet&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;getGeneratedKeys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 执行 SQL 语句，并根据 autoGeneratedKeys 参数的设置返回结果。若为 Statement.RETURN_GENERATED_KEYS，则返回受影响的行数，然后调用 getGeneratedKeys 得到key值，若为 Statement.NO_GENERATED_KEYS，则返回0。&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;executeUpdate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sql&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;autoGeneratedKeys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 终止一次 SQL 语句的执行，前提是数据库和驱动都支持。用于多线程环境下。&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;cancel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;知道 Statement 提供的方法后，我们就用几个实例来简单测试一下。
+1. executeQuery 方法
+```java
+public static void testExecuteQuery() {
+    Connection connection = null;
+    Statement statement = null;
+    ResultSet resultSet = null;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;try {
+    String sql = &quot;SELECT id, name FROM users&quot;;
+    Class.forName(&quot;com.mysql.jdbc.Driver&quot;);
+    connection = DriverManager.getConnection(&quot;jdbc:mysql://localhost:3306/jdbc&quot;, &quot;root&quot;, &quot;123456&quot;);
+    statement = connection.createStatement();
+    resultSet = statement.executeQuery(sql);
+
+    while (resultSet.next()) {
+        int id = resultSet.getInt(&quot;id&quot;);
+        String name = resultSet.getString(&quot;name&quot;);
+
+        System.out.println(&quot;id = &quot; + id + &quot; name = &quot; + name);
+    }
+} catch (Exception e) {
+    e.printStackTrace();
+} finally {
+    if (resultSet != null) {
+        try {
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    if (statement != null) {
+        try {
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    if (connection != null) {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+} } ```
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;executeUpdate 方法
+```java
+public static void testExecuteUpdate() {
+  Connection connection = null;
+  Statement statement = null;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;try {
+      String sql = “INSERT INTO users(id, name) VALUES(20, ‘Kobe’); “;
+      Class.forName(“com.mysql.jdbc.Driver”);
+      connection = DriverManager.getConnection(“jdbc:mysql://localhost:3306/jdbc”, “root”, “123456”);
+      statement = connection.createStatement();
+      int count = statement.executeUpdate(sql);&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  System.out.println(&quot;count = &quot; + count);   } catch (Exception e) {
+  e.printStackTrace();   } finally {
+  if (statement != null) {
+      try {
+          statement.close();
+      } catch (SQLException e) {
+          e.printStackTrace();
+      }
+  }
+
+  if (connection != null) {
+      try {
+          connection.close();
+      } catch (SQLException e) {
+          e.printStackTrace();
+      }
+  }   } } ```
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;executeUpdate 方法 和 getGeneratedKeys 方法
+```java
+public static void testExecuteUpdateGenerateKeys(){
+ Connection connection = null;
+ Statement statement = null;&lt;/p&gt;
+
+    &lt;p&gt;try {
+     String sql = “INSERT INTO users(name) VALUES(‘Tim’); “;
+     Class.forName(“com.mysql.jdbc.Driver”);
+     connection = DriverManager.getConnection(“jdbc:mysql://localhost:3306/jdbc”, “root”, “123456”);
+     statement = connection.createStatement();
+     int count = statement.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+     ResultSet rs = statement.getGeneratedKeys();
+     rs.next();
+     int key = rs.getInt(1);
+     System.out.println(“key = “ + key);
+ } catch (Exception e) {
+     e.printStackTrace();
+ } finally {
+     if (statement != null) {
+         try {
+             statement.close();
+         } catch (SQLException e) {
+             e.printStackTrace();
+         }
+     }&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; if (connection != null) {
+     try {
+         connection.close();
+     } catch (SQLException e) {
+         e.printStackTrace();
+     }
+ }  } } ```
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;addBatch 方法 和 executeBatch 方法，本例重点比较执行多条大批量插入时，使用 executeBatch 返回和使用 for 循环的方式执行多次 executeUpdate 方法在性能上的差异
+```java
+public static void testExecuteBatch() {
+ Connection connection = null;
+ Statement statement = null;
+ try {
+     Class.forName(“com.mysql.jdbc.Driver”);
+     connection = DriverManager.getConnection(“jdbc:mysql://localhost:3306/jdbc”, “root”, “123456”);
+     statement = connection.createStatement();&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; for (int i = 0; i &amp;lt; 100000; i++) {
+     String sql = &quot;INSERT INTO users(name) VALUES(&#39;Tim &quot; + i + &quot;&#39;); &quot;;
+     statement.addBatch(sql);
+ }
+
+ statement.executeBatch();  } catch (Exception e) {
+ e.printStackTrace();  } finally {
+ if (statement != null) {
+     try {
+         statement.close();
+     } catch (SQLException e) {
+         e.printStackTrace();
+     }
+ }
+
+ if (connection != null) {
+     try {
+         connection.close();
+     } catch (SQLException e) {
+         e.printStackTrace();
+     }
+ }  } }
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;public static void main(String[] args) {
+    long start_batch = System.currentTimeMillis();
+    testExecuteBatch();
+    long end_batch = System.currentTimeMillis();
+    System.out.println(“use executeBatch : “ + (end_batch - start_batch));&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;long start_for = System.currentTimeMillis();
+testExecuteUpdateUseFor();
+long end_for = System.currentTimeMillis();
+System.out.println(&quot;use for : &quot; + (end_for - start_for)); }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;/*
+use executeBatch : 10185
+use for : 7866
+*/
+```
+经过测试，发现使用 executeBatch 进行批量执行反而效率略差。由于本人经验不足，所以不确定结果是否正确，需要查询一下资料，明日来添加结果分析。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;通过上面的介绍和实例，Statement 接口就介绍忘了，下篇将对子接口 PreparedStatement 进行介绍。&lt;/p&gt;
+</description>
+        <pubDate>Thu, 25 Feb 2016 00:00:00 +0800</pubDate>
+        <link>http://fengzhongshuang.github.io//2016/02/jdbc-statement/</link>
+        <guid isPermaLink="true">http://fengzhongshuang.github.io//2016/02/jdbc-statement/</guid>
+        
+        <category>JDBC</category>
+        
+        
+        <category>Java</category>
+        
+      </item>
     
       <item>
         <title>JAVA基础</title>
@@ -275,7 +514,9 @@ $(selector).each(function(index,element));
       <item>
         <title>JDBC系列——3 Connection介绍</title>
         <description>&lt;h3 id=&quot;connection&quot;&gt;Connection&lt;/h3&gt;
+
 &lt;hr /&gt;
+
 &lt;p&gt;本文是 JDBC 系列文章的第三篇，本文将对 Connection 接口进行介绍，由于本人菜鸟一枚，文中若有错误之处，还请各位朋友批评指正，感谢大家花费时间阅读。&lt;/p&gt;
 
 &lt;p&gt;Connection 是指针对特定数据库的连接，SQL 语句的执行和操作结果的返回都是在这个 Connection 的上下文中的。在连接关闭前它将一直持有数据库的连接资源。该接口包括以下常用方法：&lt;/p&gt;
