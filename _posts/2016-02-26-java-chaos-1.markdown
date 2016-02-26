@@ -1,0 +1,24 @@
+---
+title:  "Java 杂乱知识点（1）"
+categories: [Java]
+tags: [杂]
+---
+
+## Java 杂乱知识点（1）
+
+本文记录下今日看到的一些杂乱知识点。
+
+---
+
+1. HashMap、Hashtable、ConcurrentHashMap
+  * HashMap是线程不安全的，不能用于并发环境中，可能导致数据错误
+  * Hashtable是线程安全的，通过对类中的每个方法使用synchronized来控制。虽然能够保证线程安全性，但由于对整个hash表加锁，导致线程竞争激烈的情况下性能极其低下。
+  * ConcurrentHashMap是线程安全的，它通过将一个大的Hashtable拆分成多个Segment来实现，每个Segment又相当于一个小的Hashtable，通过这种分段锁的机制，既能够保证线程安全，又保证的性能。
+
+2. Vector、ArrayList、Collections.synchronizedList
+  * Vector是线程安全的
+  * ArrayList是非线程安全的
+  * Collections.synchronizedList可以将分线程安全的List包装成线程安全的
+
+3. Spring MVC中线程安全问题
+由于Spring MVC中的Controller默认使用 **Singlton** 方式构建，因此是 **非线程安全的**，为了解决线程安全问题，可以使用 **Prototype** 方式构建Controller，或者使用 ThreadLocal 类来保证线程安全。

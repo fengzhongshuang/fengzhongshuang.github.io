@@ -5,9 +5,47 @@
     <description>My blog using Jekyll-Uno</description>
     <link>http://fengzhongshuang.github.io//</link>
     <atom:link href="http://fengzhongshuang.github.io//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 25 Feb 2016 22:49:04 +0800</pubDate>
-    <lastBuildDate>Thu, 25 Feb 2016 22:49:04 +0800</lastBuildDate>
+    <pubDate>Fri, 26 Feb 2016 22:34:43 +0800</pubDate>
+    <lastBuildDate>Fri, 26 Feb 2016 22:34:43 +0800</lastBuildDate>
     <generator>Jekyll v3.0.2</generator>
+    
+      <item>
+        <title>Java 杂乱知识点（1）</title>
+        <description>&lt;h2 id=&quot;java-1&quot;&gt;Java 杂乱知识点（1）&lt;/h2&gt;
+
+&lt;p&gt;本文记录下今日看到的一些杂乱知识点。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;HashMap、Hashtable、ConcurrentHashMap
+    &lt;ul&gt;
+      &lt;li&gt;HashMap是线程不安全的，不能用于并发环境中，可能导致数据错误&lt;/li&gt;
+      &lt;li&gt;Hashtable是线程安全的，通过对类中的每个方法使用synchronized来控制。虽然能够保证线程安全性，但由于对整个hash表加锁，导致线程竞争激烈的情况下性能极其低下。&lt;/li&gt;
+      &lt;li&gt;ConcurrentHashMap是线程安全的，它通过将一个大的Hashtable拆分成多个Segment来实现，每个Segment又相当于一个小的Hashtable，通过这种分段锁的机制，既能够保证线程安全，又保证的性能。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Vector、ArrayList、Collections.synchronizedList
+    &lt;ul&gt;
+      &lt;li&gt;Vector是线程安全的&lt;/li&gt;
+      &lt;li&gt;ArrayList是非线程安全的&lt;/li&gt;
+      &lt;li&gt;Collections.synchronizedList可以将分线程安全的List包装成线程安全的&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Spring MVC中线程安全问题
+由于Spring MVC中的Controller默认使用 &lt;strong&gt;Singlton&lt;/strong&gt; 方式构建，因此是 &lt;strong&gt;非线程安全的&lt;/strong&gt;，为了解决线程安全问题，可以使用 &lt;strong&gt;Prototype&lt;/strong&gt; 方式构建Controller，或者使用 ThreadLocal 类来保证线程安全。&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        <pubDate>Fri, 26 Feb 2016 00:00:00 +0800</pubDate>
+        <link>http://fengzhongshuang.github.io//2016/02/java-chaos-1/</link>
+        <guid isPermaLink="true">http://fengzhongshuang.github.io//2016/02/java-chaos-1/</guid>
+        
+        <category>杂</category>
+        
+        
+        <category>Java</category>
+        
+      </item>
     
       <item>
         <title>JDBC系列——4 Statement</title>
