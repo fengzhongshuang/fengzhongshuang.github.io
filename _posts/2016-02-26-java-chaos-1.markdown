@@ -20,5 +20,23 @@ tags: [杂]
   * ArrayList是非线程安全的
   * Collections.synchronizedList可以将分线程安全的List包装成线程安全的
 
-3. Spring MVC中线程安全问题
-由于Spring MVC中的Controller默认使用 **Singlton** 方式构建，因此是 **非线程安全的**，为了解决线程安全问题，可以使用 **Prototype** 方式构建Controller，或者使用 ThreadLocal 类来保证线程安全。
+3. Spring MVC中线程安全问题  
+  由于Spring MVC中的Controller默认使用 **Singlton** 方式构建，因此是 **非线程安全的**，为了解决线程安全问题，可以使用 **Prototype** 方式构建Controller，或者使用 ThreadLocal 类来保证线程安全。
+
+4. NIO  
+  包括Channel、Buffer、Selector几个重要的类。
+  * Channel
+    * FileChannel  用于文件操作的
+    * DatagramChannel  用于UDP协议的数据报操作
+    * SocketChannel   用于TCP协议的客户端操作
+    * SocketServerChannel  用于TCP协议的服务器端操作
+  * Buffer
+    * ByteBuffer
+    * CharBuffer
+    * ShortBuffer
+    * IntBuffer
+    * LongBuffer
+    * DoubleBuffer
+    ...
+  * Selector
+    可以用于管理多个 Channel，通过事件监听机制完成非阻塞的操作。
