@@ -183,7 +183,8 @@ tags: [Swift]
 
     **尾随闭包** 是一个书写在函数括号之后的闭包表达式,函数支持将其作为最后一个参数调用。
     ```
-    func someFunctionThatTakesAClosure(closure: () -> Void) { // 函数体部分
+    func someFunctionThatTakesAClosure(closure: () -> Void) {
+      // 函数体部分
     }
     // 以下是不使用尾随闭包进行函数调用
     someFunctionThatTakesAClosure({
@@ -196,3 +197,25 @@ tags: [Swift]
     ```
 
     **函数和闭包都是引用类型**
+8. 枚举
+  ```
+  enum SomeEnumeration {
+    // enumeration definition goes here
+  }
+
+  例：
+  enum CompassPoint {
+    case North
+    case South
+    case East
+    case West
+  }
+
+  ```
+
+  在判断一个枚举值时，`switch` 必须穷举所有情况，否则无法通过编译。当不需要匹配每个枚举成员的时候，可以使用 `default` 覆盖未明确的值。
+
+  可以在枚举成员前加上 `indirect` 来表示这 成员可递归。也可以在枚举类型开头加上 indirect 关键字来表示它的所有成员都是可递归的
+
+9. 类和结构体
+  
