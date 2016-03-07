@@ -5,10 +5,6 @@ categories: [Java]
 tags: [JDBC]
 ---
 
-### ResultSet
-
----
-
 本文是 JDBC 系列文章的第七篇，本文将对 ResultSet 接口进行介绍，由于本人菜鸟一枚，文中若有错误之处，还请各位朋友批评指正，感谢大家花费时间阅读。
 
 ---

@@ -4,10 +4,6 @@ categories: [MySQL]
 tags: [杂]
 ---
 
-## MySQL 杂乱知识点
-
----
-
 1. 时间戳处理
   * 时间戳转时间
   ```SQL

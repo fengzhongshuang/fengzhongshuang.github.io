@@ -4,8 +4,6 @@ categories: [Java]
 tags: [杂]
 ---
 
-## Java 杂乱知识点
-
 本文记录看到的一些杂乱知识点。
 
 ---

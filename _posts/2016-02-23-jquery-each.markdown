@@ -4,8 +4,6 @@ categories: ["JQuery"]
 tags: ["JQuery"]
 ---
 
-## JQuery——each函数
----
 本文用于记录JQuery的each函数的定义与用法，使用each可以对筛选出的结果进行遍历，对每个对象执行指定的函数，处理各自的逻辑。
 
 #### 定义
