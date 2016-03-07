@@ -5,17 +5,508 @@
     <description>My blog using Jekyll-Uno</description>
     <link>http://fengzhongshuang.github.io//</link>
     <atom:link href="http://fengzhongshuang.github.io//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 01 Mar 2016 22:30:12 +0800</pubDate>
-    <lastBuildDate>Tue, 01 Mar 2016 22:30:12 +0800</lastBuildDate>
+    <pubDate>Mon, 07 Mar 2016 22:21:47 +0800</pubDate>
+    <lastBuildDate>Mon, 07 Mar 2016 22:21:47 +0800</lastBuildDate>
     <generator>Jekyll v3.0.2</generator>
     
       <item>
-        <title>JDBC系列——5 PreparedStatement</title>
-        <description>&lt;h3 id=&quot;preparedstatement&quot;&gt;PreparedStatement&lt;/h3&gt;
+        <title>JDBC系列——7 ResultSet</title>
+        <description>&lt;p&gt;本文是 JDBC 系列文章的第七篇，本文将对 ResultSet 接口进行介绍，由于本人菜鸟一枚，文中若有错误之处，还请各位朋友批评指正，感谢大家花费时间阅读。&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;本文是 JDBC 系列文章的第五篇，本文将对 PreparedStatement 接口进行介绍，由于本人菜鸟一枚，文中若有错误之处，还请各位朋友批评指正，感谢大家花费时间阅读。&lt;/p&gt;
+&lt;p&gt;ResultSet 是用来表示查询结果的集合，是通过执行查询数据库的 SQL 语句产生的。默认情况下， ResultSet 是不可更改的，并且只能从第一行遍历到最后一行，但是可以通过在创建 Statement 时设置一些参数来是 ResultSet 变成可更改和可随意滚动的。
+&lt;code class=&quot;highlighter-rouge&quot;&gt;java
+Statement stmt = con.createStatement(
+          ResultSet.TYPE_SCROLL_INSENSITIVE,
+          ResultSet.CONCUR_UPDATABLE);
+ResultSet rs = stmt.executeQuery(&quot;SELECT a, b FROM TABLE2&quot;);
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;ResultSet 主要提供了以下方法：
+&lt;code class=&quot;highlighter-rouge&quot;&gt;java
+// 使游标移动到下一个位置。
+boolean next() throws SQLException;
+// 获取行中指定列的值，列从 1 开始。
+Xxx getXxx(int columnIndex) throws SQLException;
+// 获取行中指定列名的值
+Xxx getXxx(String columnLabel) throws SQLException;
+// 获取结果集的元数据
+ResultSetMetaData getMetaData() throws SQLException;
+// 更新指定列的值
+void updateXxx(int columnIndex, Xxx x) throws SQLException;
+void updateXxx(String columnLabel, Xxx x) throws SQLException;
+// 向ResultSet中插入一条记录
+void insertRow() throws SQLException;
+// 向ResultSet更新一条记录
+void updateRow() throws SQLException;
+// 删除ResultSet中的一条记录
+void deleteRow() throws SQLException;
+// 在数据库中刷新当前行的记录
+void refreshRow() throws SQLException;
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;在介绍 statement 时已经使用过 ResultSet 了，下面记录引用这个例子。
+```java
+public static void testExecuteQuery() {
+    Connection connection = null;
+    Statement statement = null;
+    ResultSet resultSet = null;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;try {
+    String sql = &quot;SELECT id, name FROM users&quot;;
+    Class.forName(&quot;com.mysql.jdbc.Driver&quot;);
+    connection = DriverManager.getConnection(&quot;jdbc:mysql://localhost:3306/jdbc&quot;, &quot;root&quot;, &quot;123456&quot;);
+    statement = connection.createStatement();
+    resultSet = statement.executeQuery(sql);
+
+    while (resultSet.next()) {
+        int id = resultSet.getInt(&quot;id&quot;);
+        String name = resultSet.getString(&quot;name&quot;);
+
+        System.out.println(&quot;id = &quot; + id + &quot; name = &quot; + name);
+    }
+} catch (Exception e) {
+    e.printStackTrace();
+} finally {
+    if (resultSet != null) {
+        try {
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    if (statement != null) {
+        try {
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    if (connection != null) {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+} } ```
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Fri, 04 Mar 2016 00:00:00 +0800</pubDate>
+        <link>http://fengzhongshuang.github.io//2016/03/jdbc-resultset/</link>
+        <guid isPermaLink="true">http://fengzhongshuang.github.io//2016/03/jdbc-resultset/</guid>
+        
+        <category>JDBC</category>
+        
+        
+        <category>Java</category>
+        
+      </item>
+    
+      <item>
+        <title>Swift语法</title>
+        <description>&lt;h3 id=&quot;section&quot;&gt;1. 基础部分&lt;/h3&gt;
+
+&lt;p&gt;用 &lt;code class=&quot;highlighter-rouge&quot;&gt;let&lt;/code&gt; 声明常量，用 &lt;code class=&quot;highlighter-rouge&quot;&gt;var&lt;/code&gt; 声明变量。可以不指定数据类型，Swift 通过&lt;strong&gt;类型推断&lt;/strong&gt;获取变量或常量的类型。也可以指定类型。&lt;/p&gt;
+
+&lt;p&gt;声明指定类型的常量或变量：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;welcomeMessage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Double&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;3.14&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;常量与变量名不能包含数学符号,箭头,保留的(或者非法的)Unicode 码位,连线与制表符。也不能以数字开 头,但是可以在常量与变量名的其他地方包含数字。&lt;/p&gt;
+
+&lt;p&gt;可以使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;typealias&lt;/code&gt; 关键字来定义类型别名。定义别名后就可以在任何使用该类型的地方换成类型别名。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;kd&quot;&gt;typealias&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AudioSample&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UInt16&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;布尔值使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;true&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;false&lt;/code&gt;，而在OC中，使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;YES&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;NO&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;元组(tuples)&lt;/strong&gt; 把多个值组合成一个复合值。元组内的值可以是任意类型,并不要求是相同类型。可以把元组进行分解，对于要忽略的部分可以使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;_&lt;/code&gt; 来代替。也可以通过下标的方式访问其中的元素，下标从 0 开始。还可以对元组的元素进行命名，访问时就可以使用名称访问。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;可选类型&lt;/strong&gt;，用类型后加问号的形式表示。如 &lt;code class=&quot;highlighter-rouge&quot;&gt;Int?&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Swift 的 nil 和 Objective-C 中的 nil 并不一样。在 Objective-C 中, nil 是一个指向不存在对象的指针。在 Swift 中, nil 不是指针——它是一个确定的值,用来表示值缺失。任何类型的可选状态都可以被设置为 nil ,不只是对象类型。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;可选绑定&lt;/strong&gt;(optional binding)来判断可选类型是否包含值,如果包含就把值赋给一个临时常量或者变量&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;constantName&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;someOptional&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;statements&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;隐式解析可选类型&lt;/strong&gt; 把想要用作可选的类型的 后面的问号( String? )改成感叹号( String! )&lt;/p&gt;
+
+&lt;h3 id=&quot;section-1&quot;&gt;2. 基本运算符&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;空合运算符&lt;/strong&gt;( a ?? b )将对可选类型 a 进行空判断,如果 a 包含一个值就进行解封,否则就返回一个默认值 b .这 个运算符有两个条件：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;表达式 a 必须是Optional类型&lt;/li&gt;
+  &lt;li&gt;默认值 b 的类型必须要和 a 存储值的类型保持一致&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;区间运算符&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;闭区间运算符( a…b )定义一个包含从 a 到 b (包括 a 和 b )的所有值的区间, b 必须大于等于 a&lt;/li&gt;
+  &lt;li&gt;半开区间( a..&amp;lt;b )定义一个从 a 到 b 但不包括 b 的区间&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;section-2&quot;&gt;3. 字符串和字符&lt;/h3&gt;
+
+&lt;p&gt;Swift 的 String 类型是值类型。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;字符串插值&lt;/strong&gt; 是一种构建新字符串的方式,可以在其中包含常量、变量、字面量和表达式。 您插入的字符串字面量 的每一项都在以反斜线为前缀的圆括号中:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;multiplier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;message&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;multiplier&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s&quot;&gt; times 2.5 is &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Double&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;multiplier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;2.5&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// message is &quot;3 times 2.5 is 7.5&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;section-3&quot;&gt;4. 集合类型&lt;/h3&gt;
+
+&lt;p&gt;Swift 语言提供 &lt;code class=&quot;highlighter-rouge&quot;&gt;Arrays&lt;/code&gt; 、&lt;code class=&quot;highlighter-rouge&quot;&gt;Sets&lt;/code&gt;  和 &lt;code class=&quot;highlighter-rouge&quot;&gt;Dictionaries&lt;/code&gt; 三种基本的集合类型用来存储集合数据。数组是有序数据的 集。集合是无序无重复数据的集。字典是无序的键值对的集。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;数组&lt;/strong&gt; 使用[]进行创建。通过&lt;code class=&quot;highlighter-rouge&quot;&gt;count&lt;/code&gt;获取元素数量，&lt;code class=&quot;highlighter-rouge&quot;&gt;append&lt;/code&gt;添加元素，使用下标获取元素，下标从 0 开始， &lt;code class=&quot;highlighter-rouge&quot;&gt;insert&lt;/code&gt;插入元素，&lt;code class=&quot;highlighter-rouge&quot;&gt;removeAtIndex&lt;/code&gt; 删除元素， &lt;code class=&quot;highlighter-rouge&quot;&gt;removeLast&lt;/code&gt;移除最后一个元素，使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;for-in&lt;/code&gt;遍历，如果我们同时需要每个数据项的值和索引值,可以使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;enumerate()&lt;/code&gt; 方法来进行数组遍历。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shoppingList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;enumerate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Item &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;: &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;集合&lt;/strong&gt; 一个类型为了存储在集合中,该类型必须是 &lt;strong&gt;可哈希化&lt;/strong&gt; 的。Swift 的所有基本类型(比如 String、Int 和 Double 等)默认都是可哈希化的,可以作为集合的值的类型或者字典的键的类型。没有关联值的枚举成员值(在枚举有讲述)默认也是可哈希化的。&lt;/p&gt;
+
+&lt;p&gt;Set类型被写成 Set&lt;类型&gt;。可以使用数组字面量来创建集合。&lt;/类型&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;favoriteGenres&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Set&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Rock&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Classical&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Hip hop&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;// favoriteGenres 被构造成含有三个初始值的集合&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;通过&lt;code class=&quot;highlighter-rouge&quot;&gt;count&lt;/code&gt;获取元素数量，&lt;code class=&quot;highlighter-rouge&quot;&gt;append&lt;/code&gt;添加元素，使用下标获取元素，下标从 0 开始， &lt;code class=&quot;highlighter-rouge&quot;&gt;insert&lt;/code&gt;插入元素，&lt;code class=&quot;highlighter-rouge&quot;&gt;removeAtIndex&lt;/code&gt; 删除元素，&lt;code class=&quot;highlighter-rouge&quot;&gt;contains&lt;/code&gt;判断是否包含某个元素。&lt;code class=&quot;highlighter-rouge&quot;&gt;intersect&lt;/code&gt;获取交集，&lt;code class=&quot;highlighter-rouge&quot;&gt;union&lt;/code&gt;获取并集，&lt;code class=&quot;highlighter-rouge&quot;&gt;subtract&lt;/code&gt;获取差集，&lt;code class=&quot;highlighter-rouge&quot;&gt;exclusiveOr&lt;/code&gt;获取异或集合。&lt;code class=&quot;highlighter-rouge&quot;&gt;isSubsetOf&lt;/code&gt;是否子集，&lt;code class=&quot;highlighter-rouge&quot;&gt;isSupersetOf&lt;/code&gt;是否超集，&lt;code class=&quot;highlighter-rouge&quot;&gt;isDisjointWith&lt;/code&gt;是否完全不包含相同元素。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;字典&lt;/strong&gt; 使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;Dictionary&amp;lt;Key, Value&amp;gt;&lt;/code&gt; 定义,也可以用 &lt;code class=&quot;highlighter-rouge&quot;&gt;[Key: Value]&lt;/code&gt; 这样快捷的形式去创建一个字典类型。字典的key必须是可哈希的。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;updateValue&lt;/code&gt;更新或设置某个key对应的值。&lt;code class=&quot;highlighter-rouge&quot;&gt;removeValueForKey&lt;/code&gt;移除key对应的值。通过访问 &lt;code class=&quot;highlighter-rouge&quot;&gt;keys&lt;/code&gt; 或者 &lt;code class=&quot;highlighter-rouge&quot;&gt;values&lt;/code&gt; 属性,我们也可以遍历字典的键或者值。&lt;/p&gt;
+
+&lt;h3 id=&quot;section-4&quot;&gt;5. 控制流&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;collections&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;initialization&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;condition&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;increment&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;statements&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;condition&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;statements&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;repeat&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;statements&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;condition&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;switch&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;some&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;consider&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;respond&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;respond&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;or&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;默认分支必须在&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;switch&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;语句的最后面&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;。&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;case 分支的模式可以使用 where 语句来判断额外的条件&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;   &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;where&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;case 分支是默认 break 的，如果想实现 C 语言中的 case 功能，则需要使用 fallthrough 关键字。&lt;/p&gt;
+
+&lt;h3 id=&quot;section-5&quot;&gt;6. 函数&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;funcName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;paramName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;paramType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]])&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;returnType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]{&lt;/span&gt;
+
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;函数返回值可以是一个元组，原来返回多个值。&lt;/p&gt;
+
+&lt;p&gt;可选元组返回类型(Optional Tuple Return Types)，&lt;code class=&quot;highlighter-rouge&quot;&gt;(String, Int)?&lt;/code&gt;, 表示整个元组是可选的，既可能返回nil值。这与 &lt;code class=&quot;highlighter-rouge&quot;&gt;(String?, Int?)&lt;/code&gt;是不同的，它表示元组中的元素可能是nil值&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;函数参数名称&lt;/strong&gt; 函数参数有一个 &lt;strong&gt;外部参数名&lt;/strong&gt; 和一个 &lt;strong&gt;内部参数名&lt;/strong&gt;，外部参 数名用来标记传递给函数调用的参数,本地参数名在实现函数的时候使用。一般情况下，第一个参数省略其外部参数名，第二个以后的参数使用其本地参数名作为自己的外部参数名。所有参数需要有不同的本地参数名,但可以共享相同的外部参数名。&lt;/p&gt;
+
+&lt;p&gt;可以在本地参数名前指定外部参数名,中间以空格分隔。如果指定了外部参数名，则调用时必须使用外部参数名。若不想指定外部参数名，可以使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;_&lt;/code&gt; 代替。&lt;/p&gt;
+
+&lt;p&gt;可以指定默认参数值。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;可变参数&lt;/strong&gt; 可以接受0个或多个值。使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;...&lt;/code&gt; 表示。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;arithmeticMean&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;numbers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Double&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Double&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;c1&quot;&gt;// do something...&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;em&gt;如果函数有一个或多个带默认值的参数,而且还有一个可变参数,那么把可变参数放在参数表的最后。&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;函数参数默认是常量。&lt;/strong&gt; 通过在参数名前加关键字 &lt;code class=&quot;highlighter-rouge&quot;&gt;var&lt;/code&gt; 来定义变量参数。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;输入输出参数&lt;/strong&gt; 保证参数在函数体内修改后仍然保持修改后的状态。定义一个输入输出参数时,在参数定义前加 &lt;code class=&quot;highlighter-rouge&quot;&gt;inout&lt;/code&gt; 关键字。传参时需要在实参前面使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;amp;&lt;/code&gt; 符号。&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;输入输出参数不能有默认值,而且可变参数不能用 inout 标记。如果你用 inout 标记一个参数,这个 参数不能被 var 或者 let 标记。&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;函数类型&lt;/strong&gt; 可以定义一个类型为函数的常量或变量,并将函数 赋值给它。可以作为其他函数的参数。也可以作为函数的返回类型。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;mathFunction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;addTwoInts&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;嵌套函数&lt;/strong&gt; 指定义在函数中的函数。&lt;/p&gt;
+
+&lt;h3 id=&quot;section-6&quot;&gt;7. 闭包&lt;/h3&gt;
+
+&lt;p&gt;闭包是自包含的函数代码块,可以在代码中被传递和使用。闭包可以捕获和存储其所在上下文中任意常量和变量的引用。 这就是所谓的闭合并包裹着这些常量和变量,俗称闭包。&lt;/p&gt;
+
+&lt;p&gt;闭包的三种形式：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;全局函数是一个有名字但不会捕获任何值的闭包&lt;/li&gt;
+  &lt;li&gt;嵌套函数是一个有名字并可以捕获其封闭函数域内值的闭包&lt;/li&gt;
+  &lt;li&gt;闭包表达式是一个利用轻量级语法所写的可以捕获其上下文中变量或常量值的匿名闭包&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;闭包表达式&lt;/strong&gt; 可以使用常量、变量和 inout 类型作为参数,不提供默认值。 也可以在参数列表的最后使用可变参数。 元组也可以作为参数和返回值。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;p&quot;&gt;{(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;parameters&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;returnType&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;statements&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;闭包的函数体部分由关键字 &lt;code class=&quot;highlighter-rouge&quot;&gt;in&lt;/code&gt; 引入。 该关键字表示闭包的参数和返回值类型定义已经完成,闭包函数体即将开始。&lt;/p&gt;
+
+&lt;p&gt;根据上下文推断类型可以省略参数类型和返回值类型&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;     &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s2&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s2&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;单行表达式闭包可以通过隐藏 return 关键字来隐式返回单行表达式的结果。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;     &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s2&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s2&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;参数名称缩写可以在闭包参数列表中省略对其的定义,并且对应参数名称缩写的 类型会通过函数类型进行推断。 in 关键字也同样可以被省略。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;运算符函数&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;尾随闭包&lt;/strong&gt; 是一个书写在函数括号之后的闭包表达式,函数支持将其作为最后一个参数调用。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;someFunctionThatTakesAClosure&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;closure&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;c1&quot;&gt;// 函数体部分&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// 以下是不使用尾随闭包进行函数调用&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;someFunctionThatTakesAClosure&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
+      &lt;span class=&quot;c1&quot;&gt;// 闭包主体部分&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// 以下是使用尾随闭包进行函数调用&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;someFunctionThatTakesAClosure&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// 闭包主体部分&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;函数和闭包都是引用类型&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;section-7&quot;&gt;8. 枚举&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;kd&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;SomeEnumeration&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// enumeration definition goes here&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;例&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;：&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CompassPoint&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;North&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;South&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;East&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;West&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;在判断一个枚举值时，&lt;code class=&quot;highlighter-rouge&quot;&gt;switch&lt;/code&gt; 必须穷举所有情况，否则无法通过编译。当不需要匹配每个枚举成员的时候，可以使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;default&lt;/code&gt; 覆盖未明确的值。&lt;/p&gt;
+
+&lt;p&gt;可以在枚举成员前加上 &lt;code class=&quot;highlighter-rouge&quot;&gt;indirect&lt;/code&gt; 来表示这 成员可递归。也可以在枚举类型开头加上 indirect 关键字来表示它的所有成员都是可递归的&lt;/p&gt;
+
+&lt;h3 id=&quot;section-8&quot;&gt;9. 类和结构体&lt;/h3&gt;
+
+&lt;p&gt;Swift 中类和结构体共同点：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;定义属性用于存储值&lt;/li&gt;
+  &lt;li&gt;定义方法用于提供功能&lt;/li&gt;
+  &lt;li&gt;定义附属脚本用于访问值&lt;/li&gt;
+  &lt;li&gt;定义构造器用于生成初始化值&lt;/li&gt;
+  &lt;li&gt;通过扩展以增加默认实现的功能&lt;/li&gt;
+  &lt;li&gt;实现协议以提供某种标准功能&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;类提供的更多功能：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;继承允许一个类继承另一个类的特征&lt;/li&gt;
+  &lt;li&gt;类型转换允许在运行时检查和解释一个类实例的类型&lt;/li&gt;
+  &lt;li&gt;解构器允许一个类实例释放任何其所被分配的资源&lt;/li&gt;
+  &lt;li&gt;引用计数允许对一个类的多次引用&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;定义&lt;/strong&gt;：类名或结构体名使用 UpperCamelCase 方式命名，属性和方法用 lowerCamelCase 命名。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;SomeClass&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// class definition goes here&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;SomeStructure&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// structure definition goes here&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;属性访问使用&lt;strong&gt;点语法&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;所有结构体都有一个自动生成的成员逐一构造器,用于初始化新结构体实例中成员的属性。但是类没有逐一构造器。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;结构体和枚举是值类型。&lt;/strong&gt; 在 Swift 中,所有的基本类型:整数(Integer)、浮点 数(floating-point)、布尔值(Boolean)、字符串(string)、数组(array)和字典(dictionary),都是值类型。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;类是引用类型&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;类和结构体的选择，出现以下任意一种或多种情况时建议使用结构体：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;结构体的主要目的是用来封装少量相关简单数据值。&lt;/li&gt;
+  &lt;li&gt;有理由预计一个结构体实例在赋值或传递时,封装的数据将会被拷贝而不是被引用。&lt;/li&gt;
+  &lt;li&gt;任何在结构体中储存的值类型属性,也将会被拷贝,而不是被引用。&lt;/li&gt;
+  &lt;li&gt;结构体不需要去继承另一个已存在类型的属性或者行为。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Swift 中 字符串(String)、数组(Array)和字典(Dictionary) 类型均以结构体的形式实现，使用值传递。&lt;/p&gt;
+
+&lt;p&gt;Objective-C中 字符串(NSString) , 数组(NSArray) 和 字典(NSDictionary) 类型均以类的形式实现，使用引用传递。&lt;/p&gt;
+
+&lt;h3 id=&quot;section-9&quot;&gt;10. 属性&lt;/h3&gt;
+</description>
+        <pubDate>Thu, 03 Mar 2016 00:00:00 +0800</pubDate>
+        <link>http://fengzhongshuang.github.io//2016/03/swift-grammer/</link>
+        <guid isPermaLink="true">http://fengzhongshuang.github.io//2016/03/swift-grammer/</guid>
+        
+        <category>Swift</category>
+        
+        
+        <category>iOS</category>
+        
+      </item>
+    
+      <item>
+        <title>JDBC系列——6 CallableStatement</title>
+        <description>&lt;p&gt;本文是 JDBC 系列文章的第六篇，本文将对 CallableStatement 接口进行介绍，由于本人菜鸟一枚，文中若有错误之处，还请各位朋友批评指正，感谢大家花费时间阅读。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;CallableStatement 是用于执行 &lt;strong&gt;存储过程或函数&lt;/strong&gt; SQL 语句，并返回结果。它是 Statement 接口的子接口。它为用户提供了以下主要方法：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// 设置输出参数&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;registerOutParameter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;parameterIndex&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sqlType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 获取输出参数的值&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;Xxx&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;getXxx&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;parameterIndex&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;CallableStatement 的方法与 Statement 的方法的差别主要是设置输出参数和获取输出参数。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-msql&quot;&gt;create table TMP_SALARY
+(
+  USER_ID    VARCHAR(20),
+  USER_NAME  VARCHAR(10),
+  SALARY     DECIMAL(8,2),
+  OTHER_INFO VARCHAR(100)
+);
+
+insert into TMP_SALARY (USER_ID, USER_NAME, SALARY, OTHER_INFO)
+values (&#39;michel&#39;, &#39;Michel&#39;, 5000, &#39;jjjjjj&#39;);
+insert into TMP_SALARY (USER_ID, USER_NAME, SALARY, OTHER_INFO)
+values (&#39;zhangsan&#39;, &#39;张三&#39;, 10000, null);
+insert into TMP_SALARY (USER_ID, USER_NAME, SALARY, OTHER_INFO)
+values (&#39;wangwu&#39;, &#39;王五&#39;, 99999.99, &#39;twitter account&#39;);
+insert into TMP_SALARY (USER_ID, USER_NAME, SALARY, OTHER_INFO)
+values (&#39;lisi&#39;, &#39;李四&#39;, 2500, null);
+
+CREATE PROCEDURE TEST_PROCEDURE(
+  P_USERID     VARCHAR(20),
+  P_SALARY     DECIMAL
+)
+	update tmp_salary set SALARY = P_SALARY WHERE USER_ID = P_USERID;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;testCallableStatement&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;Connection&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;connection&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;CallableStatement&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;statement&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;Class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;forName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;com.mysql.jdbc.Driver&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;connection&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DriverManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getConnection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;jdbc:mysql://localhost:3306/jdbc&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;root&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;123456&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;statement&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;connection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;prepareCall&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;{call TEST_PROCEDURE(?,?)}&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;statement&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setString&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;michel&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;statement&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setBigDecimal&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BigDecimal&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;statement&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;execute&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Exception&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;printStackTrace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;finally&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;statement&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;statement&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;printStackTrace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;connection&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;connection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;printStackTrace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Thu, 03 Mar 2016 00:00:00 +0800</pubDate>
+        <link>http://fengzhongshuang.github.io//2016/03/jdbc-callablestatement/</link>
+        <guid isPermaLink="true">http://fengzhongshuang.github.io//2016/03/jdbc-callablestatement/</guid>
+        
+        <category>JDBC</category>
+        
+        
+        <category>Java</category>
+        
+      </item>
+    
+      <item>
+        <title>JDBC系列——5 PreparedStatement</title>
+        <description>&lt;p&gt;本文是 JDBC 系列文章的第五篇，本文将对 PreparedStatement 接口进行介绍，由于本人菜鸟一枚，文中若有错误之处，还请各位朋友批评指正，感谢大家花费时间阅读。&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -81,11 +572,7 @@
     
       <item>
         <title>MySQL 杂乱知识点</title>
-        <description>&lt;h2 id=&quot;mysql-&quot;&gt;MySQL 杂乱知识点&lt;/h2&gt;
-
-&lt;hr /&gt;
-
-&lt;ol&gt;
+        <description>&lt;ol&gt;
   &lt;li&gt;时间戳处理
     &lt;ul&gt;
       &lt;li&gt;时间戳转时间
@@ -126,9 +613,7 @@
     
       <item>
         <title>Java 杂乱知识点</title>
-        <description>&lt;h2 id=&quot;java-&quot;&gt;Java 杂乱知识点&lt;/h2&gt;
-
-&lt;p&gt;本文记录看到的一些杂乱知识点。&lt;/p&gt;
+        <description>&lt;p&gt;本文记录看到的一些杂乱知识点。&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -147,8 +632,30 @@
       &lt;li&gt;Collections.synchronizedList可以将分线程安全的List包装成线程安全的&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-  &lt;li&gt;Spring MVC中线程安全问题
-由于Spring MVC中的Controller默认使用 &lt;strong&gt;Singlton&lt;/strong&gt; 方式构建，因此是 &lt;strong&gt;非线程安全的&lt;/strong&gt;，为了解决线程安全问题，可以使用 &lt;strong&gt;Prototype&lt;/strong&gt; 方式构建Controller，或者使用 ThreadLocal 类来保证线程安全。&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Spring MVC中线程安全问题&lt;br /&gt;
+  由于Spring MVC中的Controller默认使用 &lt;strong&gt;Singlton&lt;/strong&gt; 方式构建，因此是 &lt;strong&gt;非线程安全的&lt;/strong&gt;，为了解决线程安全问题，可以使用 &lt;strong&gt;Prototype&lt;/strong&gt; 方式构建Controller，或者使用 ThreadLocal 类来保证线程安全。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;NIO&lt;br /&gt;
+  包括Channel、Buffer、Selector几个重要的类。
+    &lt;ul&gt;
+      &lt;li&gt;Channel&lt;/li&gt;
+      &lt;li&gt;FileChannel  用于文件操作的&lt;/li&gt;
+      &lt;li&gt;DatagramChannel  用于UDP协议的数据报操作&lt;/li&gt;
+      &lt;li&gt;SocketChannel   用于TCP协议的客户端操作&lt;/li&gt;
+      &lt;li&gt;SocketServerChannel  用于TCP协议的服务器端操作&lt;/li&gt;
+      &lt;li&gt;Buffer&lt;/li&gt;
+      &lt;li&gt;ByteBuffer&lt;/li&gt;
+      &lt;li&gt;CharBuffer&lt;/li&gt;
+      &lt;li&gt;ShortBuffer&lt;/li&gt;
+      &lt;li&gt;IntBuffer&lt;/li&gt;
+      &lt;li&gt;LongBuffer&lt;/li&gt;
+      &lt;li&gt;DoubleBuffer
+ …&lt;/li&gt;
+      &lt;li&gt;Selector
+ 可以用于管理多个 Channel，通过事件监听机制完成非阻塞的操作。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
 &lt;/ol&gt;
 </description>
         <pubDate>Fri, 26 Feb 2016 00:00:00 +0800</pubDate>
@@ -164,11 +671,7 @@
     
       <item>
         <title>JDBC系列——4 Statement</title>
-        <description>&lt;h3 id=&quot;statement&quot;&gt;Statement&lt;/h3&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;本文是 JDBC 系列文章的第四篇，本文将对 Statement 接口进行介绍，由于本人菜鸟一枚，文中若有错误之处，还请各位朋友批评指正，感谢大家花费时间阅读。&lt;/p&gt;
+        <description>&lt;p&gt;本文是 JDBC 系列文章的第四篇，本文将对 Statement 接口进行介绍，由于本人菜鸟一枚，文中若有错误之处，还请各位朋友批评指正，感谢大家花费时间阅读。&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -406,11 +909,7 @@ use for : 7866
     
       <item>
         <title>JAVA基础</title>
-        <description>&lt;h1 id=&quot;j2se&quot;&gt;J2SE&lt;/h1&gt;
-
-&lt;hr /&gt;
-
-&lt;h2 id=&quot;strictfp&quot;&gt;1、使用&lt;code class=&quot;highlighter-rouge&quot;&gt;strictfp&lt;/code&gt;关键字标记的方法必须使用严格的浮点计算来产生理想的结果。&lt;/h2&gt;
+        <description>&lt;h2 id=&quot;strictfp&quot;&gt;1、使用&lt;code class=&quot;highlighter-rouge&quot;&gt;strictfp&lt;/code&gt;关键字标记的方法必须使用严格的浮点计算来产生理想的结果。&lt;/h2&gt;
 &lt;p&gt;主要是在不同的处理器上对于浮点数的运算处理的差异导致，为了平衡性能和理想结果做出的选择。&lt;/p&gt;
 
 &lt;h2 id=&quot;section&quot;&gt;2、&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;amp;&amp;amp;&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;||&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;amp;&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;|&lt;/code&gt;的异同&lt;/h2&gt;
@@ -579,9 +1078,7 @@ ClassName other = (ClassName) otherObject;
     
       <item>
         <title>JQuery——each函数</title>
-        <description>&lt;h2 id=&quot;jqueryeach&quot;&gt;JQuery——each函数&lt;/h2&gt;
-&lt;hr /&gt;
-&lt;p&gt;本文用于记录JQuery的each函数的定义与用法，使用each可以对筛选出的结果进行遍历，对每个对象执行指定的函数，处理各自的逻辑。&lt;/p&gt;
+        <description>&lt;p&gt;本文用于记录JQuery的each函数的定义与用法，使用each可以对筛选出的结果进行遍历，对每个对象执行指定的函数，处理各自的逻辑。&lt;/p&gt;
 
 &lt;h4 id=&quot;section&quot;&gt;定义&lt;/h4&gt;
 &lt;p&gt;each() 方法对筛选出来的每个结果指定特定的执行函数。
@@ -635,9 +1132,7 @@ $(selector).each(function(index,element));
     
       <item>
         <title>CSS——盒子模型</title>
-        <description>&lt;h2 id=&quot;css&quot;&gt;CSS——盒子模型&lt;/h2&gt;
-&lt;hr /&gt;
-&lt;p&gt;首先看下盒子模型的图示，从图中可以看出来，盒子模型分为四个部分，分别是 &lt;strong&gt;margin(外边距)、border(边框)、padding(内边距)、content(内容)&lt;/strong&gt;，content就是我们展示文字、图片等信息的区域，padding表示内容与边框之间的空间，margin表示其他盒子模型与当前盒子模型的边框之间的空间。&lt;/p&gt;
+        <description>&lt;p&gt;首先看下盒子模型的图示，从图中可以看出来，盒子模型分为四个部分，分别是 &lt;strong&gt;margin(外边距)、border(边框)、padding(内边距)、content(内容)&lt;/strong&gt;，content就是我们展示文字、图片等信息的区域，padding表示内容与边框之间的空间，margin表示其他盒子模型与当前盒子模型的边框之间的空间。&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/images/posts/css-box.png&quot; alt=&quot;盒子模型&quot; /&gt;&lt;/p&gt;
 
@@ -664,255 +1159,6 @@ $(selector).each(function(index,element));
         
         
         <category>CSS</category>
-        
-      </item>
-    
-      <item>
-        <title>JDBC系列——3 Connection介绍</title>
-        <description>&lt;h3 id=&quot;connection&quot;&gt;Connection&lt;/h3&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;本文是 JDBC 系列文章的第三篇，本文将对 Connection 接口进行介绍，由于本人菜鸟一枚，文中若有错误之处，还请各位朋友批评指正，感谢大家花费时间阅读。&lt;/p&gt;
-
-&lt;p&gt;Connection 是指针对特定数据库的连接，SQL 语句的执行和操作结果的返回都是在这个 Connection 的上下文中的。在连接关闭前它将一直持有数据库的连接资源。该接口包括以下常用方法：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// 创建Statement类型对象，然后通过该Statement调用静态SQL语句，操作数据库&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;Statement&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;createStatement&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// 创建PreparedStatement类型对象，调用动态SQL语句，操作数据库&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;PreparedStatement&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;prepareStatement&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sql&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// 创建CallableStatement类型对象，调用存储过程或函数等SQL语句，操作数据库&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;CallableStatement&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;prepareCall&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sql&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// 设置连接的自动提交模式，默认情况下是true，该模式下所有SQL语句将各自处于各自的事务中，若设置成false，则所有的SQL语句处于一个事务中执行&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;setAutoCommit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;boolean&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;autoCommit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// 提交当前事务中的所有变更，并释放持有的数据库锁&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;commit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// 回滚（撤销）当前事务中的所有变更，并释放持有的数据库锁&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;rollback&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// 释放连接资源&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// 获取数据库连接的元数据&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;DatabaseMetaData&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;getMetaData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// 设置当前连接为只读模式的&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;setReadOnly&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;boolean&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;readOnly&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// 设置事务的隔离级别，分别为TRANSACTION_READ_UNCOMMITTED、TRANSACTION_READ_COMMITTED、TRANSACTION_REPEATABLE_READ、TRANSACTION_SERIALIZABLE，级别由低到高，级别越高一致性越好，但并发能力越差&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;setTransactionIsolation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;level&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// 创建一个PreparedStatement对象，该对象能够获取自增的主键值&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;PreparedStatement&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;prepareStatement&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sql&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;autoGeneratedKeys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;通过上面的方法可以知道，Connection 可以帮助我们操作 SQL 语句、设置事务隔离级别以及进行事务处理，完成需要的速记操作，同时也可以获取数据库的相关信息，完成自己的数据库管理工具。&lt;/p&gt;
-</description>
-        <pubDate>Mon, 22 Feb 2016 18:28:00 +0800</pubDate>
-        <link>http://fengzhongshuang.github.io//2016/02/jdbc-connection/</link>
-        <guid isPermaLink="true">http://fengzhongshuang.github.io//2016/02/jdbc-connection/</guid>
-        
-        <category>JDBC</category>
-        
-        
-        <category>Java</category>
-        
-      </item>
-    
-      <item>
-        <title>JDBC系列——2 JDBC概述</title>
-        <description>&lt;h3 id=&quot;jdbc&quot;&gt;JDBC概述&lt;/h3&gt;
-&lt;hr /&gt;
-&lt;p&gt;本文是 JDBC 系列文章的第二篇，本文将从 JDBC 是什么、JDBC 的用途、JDBC 主要提供的接口或类有哪些、如何使用 JDBC 等方面进行描述，希望能全面的了解 JDBC，由于本人菜鸟一枚，文中若有错误之处，还请各位朋友批评指正，感谢大家花费时间阅读。&lt;/p&gt;
-
-&lt;h4 id=&quot;jdbc-1&quot;&gt;1. JDBC是什么&lt;/h4&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;JDBC（Java Database Connectivity, Java数据库连接）是一种用于执行SQL语句的Java API，可以为多种关系数据库提供统一访问，它由一组用Java语言编写的类和接口组成。JDBC提供了一种基准，据此可以构建更高级的工具和接口，使数据库开发人员能够编写数据库应用程序。   &lt;br /&gt;
-&lt;span style=&quot;display:block;text-align:right&quot;&gt;——&lt;a href=&quot;http://baike.baidu.com/link?url=HgR0z82Gj_S135c_psHE6NGpJOES2fi9E2O1HymDFGGv5ibdAC-HHC99RKxejHgq7ZWkMgD_ZQ8_hOIvbLn7vK&quot;&gt;百度百科&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;从百度百科提供的解释中可以知道，JDBC 为我们提供了访问数据库的统一标准，开发人员无需针对不同的数据库编写不同的程序代码，只需提供一份代码，在变更数据库的时候切换对应的数据库驱动即可。&lt;/p&gt;
-
-&lt;p&gt;使用 JDBC 提供的 API，我们可以对数据库进行以下操作：
-* 建立数据库连接
-* 执行数据库 SQL 语句
-* 处理数据库结果&lt;/p&gt;
-
-&lt;p&gt;JDBC 可以使用在任何需要数据库操作的程序中，当然也可以使用它的更高层次的封装框架，如&lt;code class=&quot;highlighter-rouge&quot;&gt;Spring&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;Hibernate&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;MyBatis&lt;/code&gt;等。&lt;/p&gt;
-
-&lt;h4 id=&quot;section&quot;&gt;2. 主要接口和类&lt;/h4&gt;
-&lt;p&gt;JDBC 提供了操作数据库的统一接口，主要包括以下接口和类：&lt;/p&gt;
-
-&lt;p&gt;2.1 Connection&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;A connection (session) with a specific database. SQL statements are executed and results are returned within the context of a connection.
-&lt;span style=&quot;display:block;text-align:right&quot;&gt;——java.sql.Connection&lt;/span&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;该接口是数据库通信的上下文，所有的数据库操作都是通过该上下文完成的。内部提供了创建 Statement 的方法和事务管理的相关方法。&lt;/p&gt;
-
-&lt;p&gt;2.2 Driver&lt;/p&gt;
-
-&lt;p&gt;该接口是数据库的驱动接口，数据库厂商必须保证该接口足够小，能够被一次性加载，通过该接口可以获取数据库的属性信息，也可以用于创建 Connection，但一般不这么使用。通常使用 DriverManager 来管理 Driver，DriverManager 可以同时管理多个 Driver，并根据需要&lt;/p&gt;
-
-&lt;p&gt;2.3 DriverManager&lt;/p&gt;
-
-&lt;p&gt;该类用于管理数据库驱动程序的列表。可以获取被管理的每个 Driver 的信息，也可以通过 Driver 列表中的指定 Driver 来获取数据库连接。&lt;/p&gt;
-
-&lt;p&gt;2.4 Statement&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;The object used for executing a static SQL statement and returning the results it produces.
-&lt;span style=&quot;display:block;text-align:right&quot;&gt;——java.sql.Statement&lt;/span&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;该接口用于执行静态 SQL 语句，PreparedStatement 子接口用于执行动态 SQL 语句，CallableStatement 子接口用于执行存储过程或函数。&lt;/p&gt;
-
-&lt;p&gt;2.5 ResultSet&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;A table of data representing a database result set, which is usually generated by executing a statement that queries the database.
-&lt;span style=&quot;display:block;text-align:right&quot;&gt;——java.sql.ResultSet&lt;/span&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;该接口用于对数据库结果集，将结果集转换成需要的对象类型。&lt;/p&gt;
-
-&lt;p&gt;上述这些接口或类位于&lt;code class=&quot;highlighter-rouge&quot;&gt;java.sql&lt;/code&gt;包中，大家可以自行查阅，当然包中还涉及一些类型的定义以及异常等。&lt;/p&gt;
-
-&lt;p&gt;在 ** JDBC 4.0 **中新增了一些接口和类，被放在&lt;code class=&quot;highlighter-rouge&quot;&gt;javax.sql&lt;/code&gt;包中。其中最重要的就是&lt;code class=&quot;highlighter-rouge&quot;&gt;DataSource&lt;/code&gt;接口及&lt;code class=&quot;highlighter-rouge&quot;&gt;PooledConnection&lt;/code&gt;接口，前者用于获取数据库连接，后者提供了数据库连接池管理需要的方法。&lt;/p&gt;
-
-&lt;h4 id=&quot;how-to-use&quot;&gt;3. How-to-use&lt;/h4&gt;
-
-&lt;p&gt;下面以一个 &lt;code class=&quot;highlighter-rouge&quot;&gt;Hello World&lt;/code&gt; 级别的例子来介绍如何使用 JDBC 操作数据库。&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;首先建立数据库及数据表，并在表中添加数据。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DATABASE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;jdbc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;jdbc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;DROP&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TABLE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;EXISTS&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;`users`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TABLE&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;`users`&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-  &lt;span class=&quot;nv&quot;&gt;`id`&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;11&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AUTO_INCREMENT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;nv&quot;&gt;`name`&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;PRIMARY&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;KEY&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;`id`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ENGINE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;InnoDB&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AUTO_INCREMENT&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DEFAULT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CHARSET&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;utf8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;INSERT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;INTO&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;`users`&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;VALUES&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;1&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;Michel&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;2&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;Jay&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
- &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;3&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;Micheal&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;4&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;Curry&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;创建Java项目，并添加下列代码&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;java.sql.Connection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;java.sql.Statement&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;java.sql.ResultSet&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HelloWorld&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;Connection&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;connection&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;Statement&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;statement&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;ResultSet&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resultSet&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-
-        &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sql&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;SELECT id, name FROM users&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;Class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;forName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;com.mysql.jdbc.Driver&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;connection&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DriverManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getConnection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
-                  &lt;span class=&quot;s&quot;&gt;&quot;jdbc:mysql://localhost:3306/jdbc&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
-                  &lt;span class=&quot;s&quot;&gt;&quot;root&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
-                  &lt;span class=&quot;s&quot;&gt;&quot;123456&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;statement&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;connection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;createStatement&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;resultSet&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;statement&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;executeQuery&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sql&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-
-            &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;resultSet&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;())&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-                &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resultSet&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getInt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;id&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resultSet&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getString&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-
-                &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;id = &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot; name = &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Exception&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;printStackTrace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;finally&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;resultSet&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-                &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-                    &lt;span class=&quot;n&quot;&gt;resultSet&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-                &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-                    &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;printStackTrace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-                &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;statement&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-                &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-                    &lt;span class=&quot;n&quot;&gt;statement&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-                &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-                    &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;printStackTrace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-                &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;connection&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-                &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-                    &lt;span class=&quot;n&quot;&gt;connection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-                &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SQLException&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-                    &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;printStackTrace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-                &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;项目详见【&lt;a href=&quot;https://github.com/fengzhongshuang/jdbc-demo&quot;&gt;jdbc_demo&lt;/a&gt;】&lt;/p&gt;
-</description>
-        <pubDate>Sat, 20 Feb 2016 18:28:00 +0800</pubDate>
-        <link>http://fengzhongshuang.github.io//2016/02/jdbc-summary/</link>
-        <guid isPermaLink="true">http://fengzhongshuang.github.io//2016/02/jdbc-summary/</guid>
-        
-        <category>JDBC</category>
-        
-        
-        <category>Java</category>
-        
-      </item>
-    
-      <item>
-        <title>JDBC系列——1 目录</title>
-        <description>&lt;h3 id=&quot;section&quot;&gt;目录&lt;/h3&gt;
-&lt;hr /&gt;
-&lt;p&gt;本文是JDBC系列文章的目录，该系列文章将从以下7个方面对JDBC进行介绍，由于本人菜鸟一枚，文中若有错误之处，还请各位朋友批评指正，感谢大家花费时间阅读。&lt;/p&gt;
-
-&lt;h4 id=&quot;jdbc&quot;&gt;1. JDBC概述&lt;/h4&gt;
-&lt;p&gt;简单介绍JDBC的相关概念，包含哪些重要的接口或类，并以MySQL为例，创建第一个JDBC项目&lt;code class=&quot;highlighter-rouge&quot;&gt;JDBC-HelloWorld&lt;/code&gt;。&lt;/p&gt;
-
-&lt;h4 id=&quot;connection&quot;&gt;2. Connection&lt;/h4&gt;
-&lt;p&gt;详细介绍Connection。&lt;/p&gt;
-
-&lt;h4 id=&quot;statement&quot;&gt;3. Statement&lt;/h4&gt;
-&lt;p&gt;详细介绍Statement、PreparedStatement、CallableStatement&lt;/p&gt;
-
-&lt;h4 id=&quot;resultset&quot;&gt;4. ResultSet&lt;/h4&gt;
-&lt;p&gt;介绍ResultSet，以及ResultSetMetaData获取结果集的元数据。&lt;/p&gt;
-
-&lt;h4 id=&quot;transaction&quot;&gt;5. Transaction&lt;/h4&gt;
-&lt;p&gt;介绍使用JDBC创建事务。&lt;/p&gt;
-
-&lt;h4 id=&quot;connection-pool&quot;&gt;6. Connection Pool&lt;/h4&gt;
-&lt;p&gt;使用C3P0、DBCP连接池&lt;/p&gt;
-
-&lt;h4 id=&quot;common-dao&quot;&gt;7. Common DAO&lt;/h4&gt;
-&lt;p&gt;创建一个自己的简易DAO&lt;/p&gt;
-</description>
-        <pubDate>Sat, 20 Feb 2016 08:28:00 +0800</pubDate>
-        <link>http://fengzhongshuang.github.io//2016/02/jdbc-category/</link>
-        <guid isPermaLink="true">http://fengzhongshuang.github.io//2016/02/jdbc-category/</guid>
-        
-        <category>JDBC</category>
-        
-        
-        <category>Java</category>
         
       </item>
     
