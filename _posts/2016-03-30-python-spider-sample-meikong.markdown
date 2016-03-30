@@ -78,4 +78,4 @@ if __name__ == '__main__':
 * 第二个就是 **Referer** 的设置，这是用来绕过防盗链设置的，没有这个header的属性的话，就无法获取实质的内容了，因此这两个设置灰常的重要。
 * 第三个问题是 **字符编码** 的问题，使用 requests 发送请求时基本不需要处理字符编码的问题，将获取的数据传给 pyquery 即可，如果直接使用 pyquery 来请求数据的话就存在字符编码的问题。
 
-至于 [requests](http://www.python-requests.org/en/master/)、[pyquery](http://pyquery.readthedocs.org) 库的使用，可以参考官方文档。实例代码可以从[这里](https://github.com/fengzhongshuang/python_demos/blob/master/spider-meikong.py)获取。
+至于 [requests](http://www.python-requests.org/en/master/)、[pyquery](http://pyquery.readthedocs.org) 库的使用，可以参考官方文档。实例代码可以从[这里](https://github.com/fengzhongshuang/python_demos/blob/master/spider-meikong.py)获取，还有一个爬淘宝的淘女郎的[代码实例](https://github.com/fengzhongshuang/python_demos/blob/master/spider_taobao.py)。
