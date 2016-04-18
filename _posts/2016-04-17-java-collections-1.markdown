@@ -5,7 +5,7 @@ categories: [Java]
 tags: [集合]
 ---
 
-本文根据 [The Java Tutorials](http://docs.oracle.com/javase/tutorial/) 整理 Java 集合相关内容。
+本文根据 [The Java Tutorials](http://docs.oracle.com/javase/tutorial/) 整理 Java 集合相关内容。主要对Introduction 和 Intefaces 部分进行介绍。
 
 ### 一、简介
 
