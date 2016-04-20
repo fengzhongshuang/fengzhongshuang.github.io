@@ -1,5 +1,5 @@
 ---
-title:  "Java学习之集合一"
+title:  "Java学习之集合二"
 summary:  Java集合
 categories: [Java]
 tags: [集合]
@@ -41,4 +41,4 @@ accumulator 和 combiner 不能有返回值
 ### 三、Parallelism
 并行计算是将一个问题分解为多个子问题，然后同时对每个子问题进行处理，然后将处理的结果合并起来的方式。并行计算需要注意多线程问题。然而聚合操作和并行流能够使非线程安全的集合实现并行性。
 
-在进行并行计算时需要使用 `parallelStream()`，还有专门用于并行的操作。 
+在进行并行计算时需要使用 `parallelStream()`，还有专门用于并行的操作。
