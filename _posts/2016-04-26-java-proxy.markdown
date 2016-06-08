@@ -59,6 +59,7 @@ After....
 **动态代理** 则是在代码运行时才真正的创建出代理类，在代码编写的过程中是不存在代理类的。动态代理可以通过两种方式实现，第一种是使用JDK提供的工具实现，使用这种方式要求委托类必须实现了某个接口；第二种是使用CGLIB类库，使用这种方式就不需要委托类实现接口了。
 
 ### JDK动态代理
+使用JDK的动态代理的前提是，委托类必须实现了一个接口，否则无法生成代理类，因为所有的代理类都继承了 `Proxy` 类，受限于 Java 不支持多继承，所以，委托类必须实现接口，才能实现动态代理。
 ```Java
 // 定义接口
 public interface Subject {
@@ -109,4 +110,49 @@ public class Main {
 通过动态代理工具类就可以在运行期间创建代理类，这种实现方式主要运用的技术就是反射。
 
 ### CGLIB动态代理
-待补充
+使用CGLIB来实现动态代理则不需要委托类必须实现接口了，因为CGLIB使用的是底层的技术，通过字节码的技术来创建子类，并在子类中使用拦截器技术来实现拦截父类方法的调用。
+```Java
+// 委托类
+public class Subject {
+    public void sayHello(String name) {
+        System.out.println("Hello " + name);
+    }
+}
+
+// 代理工具类
+public class ProxyUtil implements MethodInterceptor {
+    public ProxyUtil() {
+
+    }
+
+    public static Object getInstance(Class clazz) {
+        ProxyUtil interceptor = new ProxyUtil();
+        Enhancer enhancer = new Enhancer();
+        enhancer.setSuperclass(clazz);
+        enhancer.setCallback(interceptor);
+        return enhancer.create();
+    }
+
+    public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
+        System.out.println("Before...");
+        Object result = methodProxy.invokeSuper(o, objects);
+        System.out.println("After...");
+        return result;
+    }
+}
+
+// 客户类
+public class App {
+    public static void main(String[] args) {
+        Subject subject = (Subject)ProxyUtil.getInstance(Subject.class);
+        subject.sayHello("Michel");
+    }
+}
+
+// 运行结果
+Before...
+Hello Michel
+After...
+```
+
+CGLIB 创建的动态代理对象性能比JDK创建的动态代理对象的性能高不少，但是 CGLIB 在创建代理对象时所花费的时间却比JDK多得多，所以对于单例的对象，因为无需频繁创建对象，用 CGLIB 合适，反之，使用JDK方式要更为合适一些。同时，由于 CGLIB 由于是采用动态创建子类的方法，对于final方法，无法进行代理
